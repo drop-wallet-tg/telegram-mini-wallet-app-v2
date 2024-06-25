@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.title{
+    display: flex;
+    position: absolute;
+    bottom: 8px;
+    left: 2px;
+    margin: 0px 8px;
+    padding: 0px 4px;
+    max-width: calc(100% - 20px);
+    width: calc(100% - 20px);
+    border-radius: 4px;
+    font-size: 12px;
+    color: rgb(238, 238, 238);
+    background: #2f2649;
+    backdrop-filter: blur(2px);
+    -moz-box-pack: justify;
+    justify-content: space-between;
+    gap: 4px;
+}
+.sub-title{
+    display: inline-flex;
+    -moz-box-align: center;
+    align-items: center;
+    word-break: break-all;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.sub-length{
+    display: flex;
+    opacity: 0.6;
+    font-weight: 800;
+    color:white;
+}
