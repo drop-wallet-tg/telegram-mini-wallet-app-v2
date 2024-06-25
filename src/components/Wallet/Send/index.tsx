@@ -78,8 +78,9 @@ export default function Send(){
             setAddressSend(nearAccount);
         }
     }
-    const handleTransferToken = async()=>{			
-        console.log("transfer")
+    const handleTransferToken = async(e:any)=>{
+        e.preventDefault();			
+        console.log("transfer");
         setLoading(true);
         if(addressSend){
             if(amount){
@@ -127,13 +128,13 @@ export default function Send(){
                                         );
                                         console.log(signedDelegate)
                                     const data = await submitTransaction(signedDelegate);
-                                    setLoading(false)
-                                    if(data.status){
-                                        localStorage.setItem("hash",data.transaction.hash)
-                                        location.replace("/wallet/send/success")
+                                    if(data.final_execution_status == "FINAL"){
+                                        location.replace(`/wallet/send/success?hash=${data.transaction.hash}`);
                                     }else{
+                                        setLoading(false)
                                         setStatus("<b>Error cannt transfer. try again</b>")
                                     }
+                                    
                                 }
                             }catch(error){
                                 setStatus(`<b>${error}</b>`)
@@ -164,7 +165,7 @@ export default function Send(){
                         <div className="rounded-full h-12 w-12 bg-violet-900 animate-ping"></div>
                     </div>
                 )}
-                <div className="p-5">
+                <form onSubmit={handleTransferToken} className="p-5">
                     <div className="flex flex-row items-center text-center">
                         <Link href="/">
                             <img src="/images/icon/Arrow.svg" alt="arrow" />
@@ -221,12 +222,18 @@ export default function Send(){
                         {isShow&&(
                             <div id="dropdown-menu" className="w-full absolute right-0 mt-3 rounded-md bg-[#444b9a] z-10 p-1 space-y-1">
                                 {token.length > 0?token.map((dt:any,i:number)=>(
-                                    <button onClick={()=>setSelect(dt.symbol)} key={i} className="px-4 flex flex-row gap-2 py-2 w-full text-start outline-none text-white hover:bg-[#473480] cursor-pointer rounded-md">
+                                    <button onClick={()=>{
+                                        setSelect(dt.symbol)
+                                        setIsShow(false)
+                                    }} key={i} className="px-4 flex flex-row gap-2 py-2 w-full text-start outline-none text-white hover:bg-[#473480] cursor-pointer rounded-md">
                                         <img width={23} src={dt.icon} alt="logo" />
                                         <span className="font-semibold text-sm">{dt.symbol}</span>
                                     </button>  
                                 )):(
-                                    <button onClick={()=>setSelect("NEAR")} className="px-4 flex flex-row gap-2 py-2 w-full text-start outline-none text-white hover:bg-[#473480] cursor-pointer rounded-md">
+                                    <button onClick={()=>{
+                                        setSelect("NEAR")
+                                        setIsShow(false)
+                                    }} className="px-4 flex flex-row gap-2 py-2 w-full text-start outline-none text-white hover:bg-[#473480] cursor-pointer rounded-md">
                                         <img width={23} src="/assets/near.svg" alt="logo" />
                                         <span className="font-semibold text-sm">NEAR</span>
                                     </button>
@@ -241,9 +248,9 @@ export default function Send(){
                         {msgAccount&&<div dangerouslySetInnerHTML={{__html:msgAccount}}/>}
                     </div>
                     <div className="mt-10 w-full">
-                        <button onClick={handleTransferToken} className="px-6 py-3 bg-[#2775CA] w-full rounded-3xl text-white font-bold">Send</button>
+                        <button type="submit" className="px-6 py-3 bg-[#2775CA] w-full rounded-3xl text-white font-bold">Send</button>
                     </div>
-                </div>
+                </form>
         </div>
         )
     )

@@ -3,15 +3,23 @@ import { useState,useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
 
 export default function VibeSuccess(){
     const [account,setAccount] = useState<string>('');
-    const nonce = localStorage.getItem("nonce") ||"";
-    const content = localStorage.getItem("content") ||"";
+    const params = useSearchParams();
+
+    const nonce = params.get("nonce")
+    ? params.get("nonce")
+    : "";
+
+    const content = params.get("content")
+    ? params.get("content")
+    : "";
+
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string)); 
     },[account])

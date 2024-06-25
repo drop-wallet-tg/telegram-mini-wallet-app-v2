@@ -58,7 +58,7 @@ export default function ImportWallet(){
                 </div>
                 <div className="mt-5">
                     <span className="text-white font-semibold">Public Key</span>
-                    <div className="mt-2 w-full h-28 px-3 py-2 text-white rounded-lg border border-gray-200 border-opacity-30 shadow-sm bg-transparent outline-none focus:border-white focus:border-opacity-65">
+                    <div className="mt-2 break-words w-full h-28 px-3 py-2 text-white rounded-lg border border-gray-200 border-opacity-30 shadow-sm bg-transparent outline-none focus:border-white focus:border-opacity-65">
                         <code>
                             {publicKey?publicKey:"-"}
                         </code>

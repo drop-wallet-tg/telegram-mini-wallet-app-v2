@@ -4,7 +4,7 @@ import WebApp from "@twa-dev/sdk";
 import { getVibe, mintNFT, submitTransaction } from "@/hooks/SDK";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import Image from "next/image";
+
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
@@ -83,8 +83,8 @@ export default function Vibe(){
             // await ctx.replyWithHTML(
             //     `<b>✅ You successfully posted on NEAR Social for vibes. <img href="https://near.social/mob.near/widget/MainPage.Post.Page?accountId=${accountId}&blockHeight=${data.transaction.nonce}">(See link)</a>\n⌛️ The image will take ~10 minutes to show on NEAR Social </b>`, keyboards.home()
             // );
-            localStorage.setItem("content",description);
-            localStorage.setItem("nonce",nonce);
+            // localStorage.setItem("content",description);
+            // localStorage.setItem("nonce",nonce);
             const tokenId = Date.now() + "";
             const title = `${account.replace(".near", "")} ${new Date().toLocaleDateString('en-us', { year: "numeric", month: "short", day: "numeric" })}`;
             const content = `#ProofOfVibes #   @proofofvibes.near ${description} \n ## **Vibe-rating**  ❤️ **Friendliness:** ${friendliness}/10 ⚡️ **Energy:** ${enegry}/10 🧊 **Density:** ${density}/10 🌈 **Diversity:** ${diversity}/10`;
@@ -98,9 +98,8 @@ export default function Vibe(){
                 tokenId
             )
             const data = await submitTransaction(signedDelegate);
-            if(data.transaction.hash){
-                setLoading(false)
-                location.replace("/wallet/vibe/success")
+            if(data.final_execution_status == "FINAL"){
+                location.replace(`/wallet/vibe/success?content=${description}&nonce=${nonce}`)
             }
         }
     }

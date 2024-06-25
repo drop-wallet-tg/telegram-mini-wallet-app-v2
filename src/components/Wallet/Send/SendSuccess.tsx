@@ -3,13 +3,17 @@ import { useState,useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
 export default function SendSuccess(){
     const [account,setAccount] = useState<string>('');
-    const hash = localStorage.getItem("hash") ||"";
+    const params = useSearchParams();
+
+    const hash = params.get("hash")
+    ? params.get("hash")
+    : "";
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string)); 
     },[account])

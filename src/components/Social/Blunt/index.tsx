@@ -87,7 +87,7 @@ export default function BluntDao(){
 			)
 			const rs = await submitTransaction(signedDelegate);
 			if (rs.transaction_outcome?.outcome?.status) {
-                localStorage.setItem("nonce",rs.transaction.nonce)
+                //localStorage.setItem("nonce",rs.transaction.nonce)
 				// await ctx.replyWithHTML(`<b>✅ You posted on NEAR Social (<img href="https://near.social/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${data.transaction.nonce}">Open</a>) </b>`, keyboards.back());
 				const tokenId = Date.now() + "";
 				const title = `BluntDao NFT #${blunt}`;
@@ -103,8 +103,8 @@ export default function BluntDao(){
 					token_id
 				)
 				await submitTransaction(signedDelegates)
+                location.replace(`/social/blunt/success?title=${title}&nonce=${rs.transaction.nonce}`)
                 setLoading(false)
-                location.replace("/social/blunt/success")
 			}
         }else{
             const {
@@ -135,7 +135,7 @@ export default function BluntDao(){
                     account,
                     token_id
                 )
-                localStorage.setItem("title",title);
+                //localStorage.setItem("title",title);
                 await submitTransaction(signedDelegateMint)
                 if (result) {
                     WebApp.CloudStorage.setItem("proofofsesh","true");
@@ -147,13 +147,13 @@ export default function BluntDao(){
                         content
                     )
                     const rs = await submitTransaction(delegate);
-                    if (rs.transaction_outcome?.outcome?.status) {
+                    if (rs.final_execution_status == "FINAL") {
                         const {
                             data
                         } = await getNFTBlunt(account);
-                        localStorage.setItem("contractId",data.nft["nft.bluntdao.near"][0].nft_contract_id);
-                        localStorage.setItem("tokenId",data.nft["nft.bluntdao.near"][0].token_id);
-                        localStorage.setItem("nonce",rs.transaction.nonce)
+                        //localStorage.setItem("contractId",data.nft["nft.bluntdao.near"][0].nft_contract_id);
+                        //localStorage.setItem("tokenId",data.nft["nft.bluntdao.near"][0].token_id);
+                        //localStorage.setItem("nonce",rs.transaction.nonce)
                         const addDelegate = await addBlunt(
                             account,
                             blunt,
@@ -161,14 +161,13 @@ export default function BluntDao(){
                             rs.transaction.nonce
                         )
                         await submitTransaction(addDelegate)
-                    }
-                    const followDelegate = await followBlunt(
-                        account,
-                        privateKey
-                    )
-                    await submitTransaction(followDelegate);
-                    setLoading(false);
-                    location.replace("/social/blunt/success")
+                        const followDelegate = await followBlunt(
+                            account,
+                            privateKey
+                        )
+                        await submitTransaction(followDelegate);
+                        location.replace(`/social/blunt/success?title=${title}&contractId=${data.nft["nft.bluntdao.near"][0].nft_contract_id}&tokenId=${data.nft["nft.bluntdao.near"][0].token_id}&nonce=${rs.transaction.nonce}`)
+                    } 
                 }
             } else {
                 setLoading(false)

@@ -61,7 +61,6 @@ export default function Vibe(){
 
     const handlePostSocial = async()=>{
         console.log("post social");
-        //location.replace("/wallet/vibe/success")
         setLoading(true)
         if(cid){
             const value = await postSocial(
@@ -70,11 +69,11 @@ export default function Vibe(){
                 privateKey,
                 description
             );
-            const result = await submitTransaction(value);
-            if (result.transaction_outcome?.outcome?.status) {
-                localStorage.setItem("content",description);
-                localStorage.setItem("nonce",result.transaction.nonce);
-                location.replace("/social/post/success");
+            const data = await submitTransaction(value);
+            if (data.final_execution_status == "FINAL") {
+                //localStorage.setItem("content",description);
+                //localStorage.setItem("nonce",result.transaction.nonce);
+                location.replace(`/social/post/success?content=${description}&nonce=${data.transaction.nonce}`);
                 //return await ctx.replyWithHTML(`<b>✅ You posted on NEAR Social (<img href="https://near.social/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${result.transaction.nonce}">Open</a>) </b>`,keyboards.home());
             }
         }else{
@@ -85,11 +84,11 @@ export default function Vibe(){
                 description
             );
             
-            const result = await submitTransaction(value);
-            if (result.transaction_outcome?.outcome?.status) {
-                localStorage.setItem("content",description);
-                localStorage.setItem("nonce",result.transaction.nonce);
-                location.replace("/social/post/success");
+            const data = await submitTransaction(value);
+            if (data.final_execution_status == "FINAL") {
+                //localStorage.setItem("content",description);
+                //localStorage.setItem("nonce",result.transaction.nonce);
+                location.replace(`/social/post/success?content=${description}&nonce=${data.transaction.nonce}`);
                 //return await ctx.replyWithHTML(`<b>✅ You posted on NEAR Social (<img href="https://near.social/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${result.transaction.nonce}">Open</a>) </b>`,keyboards.home());
             }
         }

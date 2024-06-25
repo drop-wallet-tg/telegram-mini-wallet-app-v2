@@ -3,15 +3,23 @@ import { useState,useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-
+import { useSearchParams } from "next/navigation";
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
 
 export default function MintSuccess(){
     const [account,setAccount] = useState<string>('');
-    const tokenId = localStorage.getItem("tokenId")||"";
-    const title = localStorage.getItem("title") || "";
+    const params = useSearchParams();
+
+    const tokenId = params.get("tokenId")
+    ? params.get("tokenId")
+    : "";
+
+    const title = params.get("title")
+    ? params.get("title")
+    : "";
+
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string)); 
     },[account])

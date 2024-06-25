@@ -3,17 +3,20 @@ import { useState,useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
-
+//"/social/blunt/success?title=${title}&contractId=${data.nft["nft.bluntdao.near"][0].nft_contract_id}&tokenId=${data.nft["nft.bluntdao.near"][0].token_id}&nonce=${rs.transaction.nonce}"
 export default function BluntSuccess(){
     const [account,setAccount] = useState<string>('');
-    const tokenId = localStorage.getItem("tokenId") || "";
-    const title = localStorage.getItem("title") || "";
-    const contractId = localStorage.getItem("contractId") || "";
-    const nonce = localStorage.getItem("nonce") || "";
+    const params = useSearchParams();
+
+    const tokenId = params.get("tokenId")? params.get("tokenId"): "";
+    const contractId = params.get("contractId")? params.get("contractId"): "";
+    const nonce = params.get("nonce")? params.get("nonce"): "";
+    const title = params.get("title")? params.get("title"): "";
+
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string)); 
     },[account])

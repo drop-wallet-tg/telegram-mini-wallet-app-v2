@@ -122,7 +122,6 @@ export default function Mint(){
         }
     }
 
-
     const handleMintNFT = async()=>{
         console.log("mint nft")
         setLoading(true)
@@ -140,34 +139,50 @@ export default function Mint(){
                 );
                 const data = await submitTransaction(signedDelegate);
                 if (
-                    data.transaction_outcome?.outcome?.status
-                        ?.SuccessReceiptId
+                    data.final_execution_status == "FINAL"
                 ) {
-                    setLoading(false);
-                    localStorage.setItem("tokenId",tokenId);
-                    localStorage.setItem("title",title);
-                    location.replace("/wallet/nfts/mint/success")
+                    location.replace(`/wallet/nfts/mint/success?tokenId=${tokenId}&title=${title}`);
                 }
             }catch(error){
                 console.log(error)
             }
         }else if(select[0]=="MINTBASE"){
-            const signedDelegate = await MintBase({
-                accountId: account,
-                privateKey: privateKey,
-                title: title,
-                description: description,
-                media: file as File,
-            })
-            const data = await submitTransaction(signedDelegate);
-            if (
-                data.transaction_outcome?.outcome?.status
-                    ?.SuccessReceiptId
-            ) {
-                setLoading(false);
-                localStorage.setItem("title",title);
-                location.replace("/wallet/nfts/mint/success")
+            try{
+                const tokenId = Date.now() + "";
+                const signedDelegate = await mintNFT(
+                    account,
+                    title,
+                    description,
+                    cid,
+                    privateKey,
+                    nearAccount,
+                    tokenId
+                );
+                const data = await submitTransaction(signedDelegate);
+                if (
+                    data.final_execution_status == "FINAL"
+                ) {
+                    location.replace(`/wallet/nfts/mint/success?tokenId=${tokenId}&title=${title}`);
+                }
+            }catch(error){
+                console.log(error)
             }
+            // const signedDelegate = await MintBase({
+            //     accountId: account,
+            //     privateKey: privateKey,
+            //     title: title,
+            //     description: description,
+            //     media: file as File,
+            // })
+            // const data = await submitTransaction(signedDelegate);
+            // if (
+            //     data.transaction_outcome?.outcome?.status
+            //         ?.SuccessReceiptId
+            // ) {
+            //     setLoading(false);
+            //     localStorage.setItem("title",title);
+            //     location.replace("/wallet/nfts/mint/success")
+            // }
         }else{
             setLoading(false)
             console.log("select error")
@@ -203,11 +218,17 @@ export default function Mint(){
                     </button>
                     {isShow&&(
                             <div id="dropdown-menu" className="w-full absolute right-0 mt-3 rounded-md bg-[#444b9a] z-10 p-1 space-y-1">
-                                <button onClick={()=>setSelect(["GENADROP","/assets/genadrop.svg","nft.genadrop.near"])} className="px-4 items-center flex flex-row gap-2 py-2 w-full text-start outline-none text-white hover:bg-[#473480] cursor-pointer rounded-md">
+                                <button onClick={()=>{
+                                    setSelect(["GENADROP","/assets/genadrop.svg","nft.genadrop.near"])
+                                    setIsShow(false)
+                                }} className="px-4 items-center flex flex-row gap-2 py-2 w-full text-start outline-none text-white hover:bg-[#473480] cursor-pointer rounded-md">
                                     <img width={20} src="/assets/genadrop.svg" alt="logo" />
                                     <span className="font-semibold text-sm">GENADROP</span>
                                 </button>  
-                                <button onClick={()=>setSelect(["MINTBASE","https://www.mintbase.xyz/favicon.ico","minter.artreus.near"])} className="px-4 items-center flex flex-row gap-2 py-2 w-full text-start outline-none text-white hover:bg-[#473480] cursor-pointer rounded-md">
+                                <button onClick={()=>{
+                                    setSelect(["MINTBASE","https://www.mintbase.xyz/favicon.ico","minter.artreus.near"]);
+                                    setIsShow(false)
+                                }} className="px-4 items-center flex flex-row gap-2 py-2 w-full text-start outline-none text-white hover:bg-[#473480] cursor-pointer rounded-md">
                                     <img width={20} src="https://www.mintbase.xyz/favicon.ico" alt="logo" />
                                     <span className="font-semibold text-sm">MINTBASE</span>
                                 </button>                     
