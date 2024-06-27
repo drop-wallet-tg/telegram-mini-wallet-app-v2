@@ -32,6 +32,19 @@ export default function History(){
         ? `${string.substring(0, maxLength)}…`
         : string;
 
+    function struncate(str: string){
+        let account;
+        if(str){
+            if(str.length > 30){
+                const format = str.replace(".near","");
+                account = format.slice(0,3)+'...'+format.slice(-3);
+            }else{
+                account = str;
+            }
+        }
+        return account as string;
+    }
+
     console.log("txns",txns)
     return(
         <div className="w-full bg-[#180E35] relative">
@@ -65,13 +78,13 @@ export default function History(){
                                                                 <p>Called</p>
                                                                 <p className="px-2 bg-[#403363] rounded-md">{data.actions[0].method}</p>
                                                                 <p>on</p>
-                                                                <p className="px-2 bg-[#403363] rounded-md">{data.receiver_account_id}</p>
+                                                                <p className="px-2 bg-[#403363] rounded-md">{struncate(data.receiver_account_id)}</p>
                                                             </div>
                                                         )
-                                                        :data.actions[0].method== "nft_mint"&&<p className="font-semibold">with {data.receiver_account_id}</p>
+                                                        :data.actions[0].method== "nft_mint"&&<p className="font-semibold">with {struncate(data.receiver_account_id)}</p>
                                                     :data.actions[0].action =="UNKNOWN"
-                                                        ?<p>with {data.receiver_account_id}</p>
-                                                        :<p>to {data.receiver_account_id}</p>
+                                                        ?<p>with {struncate(data.receiver_account_id)}</p>
+                                                        :<p>to {struncate(data.receiver_account_id)}</p>
                                                     }
                                                 </small>
                                             </div>
