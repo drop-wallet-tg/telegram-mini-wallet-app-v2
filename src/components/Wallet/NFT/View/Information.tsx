@@ -4,7 +4,7 @@ import { useState,useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 import { getNFT } from "@/hooks/SDK";
 import Link from "next/link";
-import Image from "next/image";
+
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
@@ -28,7 +28,8 @@ export default function Information({params}:{params:string}){
             contractOwnedList.forEach((item, index) => {
                 totalNft += data.nft[item].length;
                 if(data.nft[item][index].nft_contract_id == params){
-                    setNFTName(data.nft[item][1].nft_contract_name)
+                    setNFTName(data.nft[item][0].nft_contract_name)
+                    
                     //console.log("item",data.nft[item][1])
                     for(let i = 0;i<data.nft[item].length;i++){
                         console.log("nft",data.nft[item][i])
