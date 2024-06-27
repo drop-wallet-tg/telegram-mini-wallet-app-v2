@@ -408,16 +408,14 @@ export async function transferToken(privateKey:string, accountId:string ,receive
   
     if(tokenContract == 'NEAR'){
     //const newAmount = (parseInt(amount)-50000000000000000000).toLocaleString('fullwide', {useGrouping:false}) ;
-    try {
-        const deserializeDelegate = await signerAccount.signedDelegate({
-          actions: [actionCreators.transfer(amount)],
-          blockHeightTtl: 60,
-          receiverId: receiverId,
-      });
-        return deserializeDelegate;
-    } catch (error) {
-        return {error};
-    }
+      try {
+        if(signerAccount){
+          const tx = await signerAccount.sendMoney(receiverId,amount);
+          return tx;
+        }
+      } catch (error) {
+          return {error};
+      }
     }else{
         const gas = "300000000000000";
         const deposit = "1";
