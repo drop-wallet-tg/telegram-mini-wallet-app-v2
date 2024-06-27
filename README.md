@@ -16,7 +16,7 @@ Convert .env.example to .env
 
 ### Setup API
 
-* [API]("./api/README.md")
+* [API](./api/README.md)
 
 ### Run project
 
