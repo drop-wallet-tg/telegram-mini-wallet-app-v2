@@ -1,4 +1,16 @@
 export default function Sidebar({account,isShow,setIsShow}:{account:string,isShow:boolean,setIsShow:any}){
+    function strucate(str: string){
+        let account;
+        if(str){
+            if(str.length > 30){
+                const format = str.replace(".near","");
+                account = format.slice(0,3)+'...'+format.slice(-3);
+            }else{
+                account = str;
+            }
+        }
+        return account as string;
+    }
     return(
         isShow&&(
             <div className="fixed z-50 h-screen bg-black bg-opacity-50 w-full top-0 start-0 bottom-0 transition-all duration-300 transform  overflow-hidden lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300">
@@ -13,8 +25,8 @@ export default function Sidebar({account,isShow,setIsShow}:{account:string,isSho
                             <img width={70} src="/images/logo/logo.svg" alt="icon" />
                         </div>
                         <div className="flex flex-col gap-1 text-center">
-                            <label className="text-white font-semibold text-2xl">{account.replace(".near", "")}</label>
-                            <small className="text-[#bdbdbd] font-semibold text-sm">{account}</small>
+                            <label className="text-white font-semibold text-2xl">{strucate(account).includes(".near")?strucate(account).replace(".near",""):strucate(account)}</label>
+                            <small className="text-[#bdbdbd] font-semibold text-sm">{strucate(account)}</small>
                         </div>
                     </div>   
                     <div className="absolute z-50 bottom-14 border-t border-gray-100 border-opacity-20 pt-10 w-full items-center justify-center flex">
