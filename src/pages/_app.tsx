@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import { useRouter as useNavigationRouter } from 'next/navigation';
 
 import "./globals.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const BackButtonManipulator: FC = () => {

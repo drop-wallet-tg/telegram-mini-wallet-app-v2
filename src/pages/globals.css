@@ -35,3 +35,6 @@
     font-weight: 800;
     color:white;
 }
+.toastify{
+    bottom: 4rem !important;
+}
