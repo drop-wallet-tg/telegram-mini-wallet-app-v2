@@ -15,7 +15,18 @@ export default function Setting(){
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
     },[account])
 
-
+    function struncate(str: string){
+        let account;
+        if(str){
+            if(str.length > 30){
+                const format = str.replace(".near","");
+                account = format.slice(0,3)+'...'+format.slice(-3);
+            }else{
+                account = str;
+            }
+        }
+        return account as string;
+    }
 
     return(
         <div className="w-full bg-[#180E35] relative">
@@ -27,7 +38,7 @@ export default function Setting(){
                             <img width={55} src="/images/logo/logo.svg" alt="icon" />
                         </div>
                         <div className="flex flex-col gap-1">
-                            <label className="text-white font-semibold text-lg">{account.replace(".near", "")}</label>
+                            <label className="text-white font-semibold text-lg">{account&&struncate(account).includes(".near")?account.replace(".near", ""):struncate(account)}</label>
                             <small className="text-[#bdbdbd]">-</small>
                         </div>
                     </div>
