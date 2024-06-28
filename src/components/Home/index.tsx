@@ -92,7 +92,7 @@ export default function Home(){
             setTotalNFT(0)
         }
     }
-
+    
     return(
         account?(
             <div className="w-full  bg-[#180E35]">

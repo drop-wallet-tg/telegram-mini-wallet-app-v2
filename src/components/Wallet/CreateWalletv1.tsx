@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react";
-import {getState,CreateAccount, stateAccounts, submitTransaction} from "../../hooks/SDK";
+import {getState,CreateAccount, submitTransaction} from "../../hooks/SDK";
 import WebApp from "@twa-dev/sdk";
 import Link from "next/link";
 
@@ -11,7 +11,6 @@ export default function CreateWalletv1(){
     const [loading,setLoading] = useState<boolean>(false);
     const [status,setStatus] = useState<string>('');
 
-
     const handleCreateAccount = async(e:any)=>{
         e.preventDefault();
         if(account){
@@ -21,8 +20,16 @@ export default function CreateWalletv1(){
             if (stateAccount.response?.type == "AccountDoesNotExist") {
                 const {signedDelegates,privateKey,seed} = await CreateAccount(account)
                 const data = await submitTransaction(signedDelegates);
+                const Accounts = [
+                    {
+                        name: account,
+                        privateKey: privateKey
+                    }
+                ]
+                localStorage.setItem('accounts',JSON.stringify(Accounts))
                 WebApp.CloudStorage.setItem("privateKey",privateKey);
                 WebApp.CloudStorage.setItem("account",account);
+                WebApp.CloudStorage.setItem("sedd",seed);
                 //console.log(data)
                 
                 if (data.final_execution_status == "FINAL") {

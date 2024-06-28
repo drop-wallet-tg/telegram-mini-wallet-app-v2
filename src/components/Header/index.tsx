@@ -1,7 +1,6 @@
 "use client"
 import { useState,useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
-import copy from 'copy-text-to-clipboard';
 import Sidebar from "../Sidebar";
 import { ToastContainer, toast } from 'react-toastify';
 import {CopyToClipboard} from 'react-copy-to-clipboard';

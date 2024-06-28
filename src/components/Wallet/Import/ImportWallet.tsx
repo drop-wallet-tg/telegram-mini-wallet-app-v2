@@ -4,11 +4,15 @@ import WebApp from "@twa-dev/sdk";
 import * as Near from "near-api-js";
 import { getAccount } from "@/hooks/SDK";
 
+
+
 export default function ImportWallet(){
     const [privateKey,setPrivateKey] = useState<string>('');
     const [publicKey, setPublicKey] = useState<string>('');
     const [status,setStatus] = useState<string>('');
     const [loading,setLoading] = useState<boolean>(false);
+    const oldAccounts = JSON.parse(localStorage.getItem("accounts") as string)??[];
+
 
     const handlePrivateKey = async(event:any)=>{
         const privateKey = event.target.value;
@@ -26,9 +30,31 @@ export default function ImportWallet(){
         setLoading(true)
         const account = await getAccount(publicKey);
         if(account){
+            oldAccounts.map((dt:any,index:number)=>{
+                if(dt.name===account[0]){
+                    localStorage.setItem("index",index.toString())
+                }else{
+                    oldAccounts.push(
+                        {
+                            name: account[0],
+                            privateKey: privateKey
+                        }
+                    )
+                    localStorage.setItem("index",Number(oldAccounts.length-1).toString())
+                    
+                }
+            })
+            if(oldAccounts.length < 1){
+                oldAccounts.push(
+                    {
+                        name: account[0],
+                        privateKey: privateKey
+                    }
+                )
+            }
+            localStorage.setItem('accounts',JSON.stringify(oldAccounts))
             WebApp.CloudStorage.setItem("privateKey",privateKey);
             WebApp.CloudStorage.setItem("account",account[0]);
-            WebApp.CloudStorage.removeItem("seed");
             setLoading(false)
             location.replace("/")
         }else{
@@ -36,6 +62,8 @@ export default function ImportWallet(){
             setStatus("<b>Invalid key. Please check your input and try again!</b>");
         }
     }
+
+
     return(
         <div className="w-full min-h-screen flex justify-between flex-col bg-[#180E35]">
             {loading&&(
@@ -44,12 +72,10 @@ export default function ImportWallet(){
                     </div>
                 )}
             <div className="p-5">
-                <Link href="/">
+                <Link href="/wallet/import-wallet">
                     <img className="bg-black bg-opacity-20 w-8 h-8 rounded-full hover:bg-opacity-25"  src="/images/icon/Arrow.svg" alt="arrow" />
                 </Link>
-                <div className="mt-10">
                 
-                </div>
                 <div className="mt-10">
                     <h5 className="text-white font-semibold text-2xl">Private Key</h5>
                     <p className="text-white text-opacity-60 mt-2">Provide the wallet&apos;s private key to import the wallet</p>
@@ -78,7 +104,7 @@ export default function ImportWallet(){
                     )}
                 <div className="mt-10 flex flex-row justify-center items-center">
                     <button onClick={handleFind} disabled={!publicKey&&true} className={`w-3/4  h-[50px] ${publicKey?"bg-blue-700 bg-opacity-50 hover:bg-blue-600":"bg-black bg-opacity-20"} rounded-full`}>
-                        <span className="text-white font-semibold">Import Account</span>
+                        <span className="text-white font-semibold">Find my account</span>
                     </button>
                 </div>
             </div>
