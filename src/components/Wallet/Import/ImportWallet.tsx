@@ -52,7 +52,7 @@ export default function ImportWallet(){
                 </div>
                 <div className="mt-10">
                     <h5 className="text-white font-semibold text-2xl">Private Key</h5>
-                    <p className="text-white text-opacity-60 mt-2">Provide the wallet's private key to import the wallet</p>
+                    <p className="text-white text-opacity-60 mt-2">Provide the wallet&apos;s private key to import the wallet</p>
                 </div>
                 <div className="mt-10">
                     <span className="text-white font-semibold">Private crypto key</span>
