@@ -104,6 +104,22 @@ export default function Vibe(){
         }
     }
 
+    const handleEnough = () =>{
+        if(account&&
+            cid&&
+            privateKey&&
+            friendliness&&
+            enegry&&
+            density&&
+            diversity&&
+            description)
+        {
+            return true;
+        }else{
+            return false
+        }
+    }
+
     return(
         <div className="w-full min-h-screen bg-[#180E35]">
             <Header/>
@@ -224,7 +240,7 @@ export default function Vibe(){
                     </select>
                 </div>
                 <div className="mt-12 w-full">
-                    <button onClick={handlePostVibe} className="px-6 py-3 bg-[#2775CA] hover:bg-[#5290D4] w-full rounded-3xl text-white font-bold">Post</button>
+                    <button onClick={handlePostVibe} disabled={!handleEnough()} className={`${handleEnough()?"bg-[#2775CA] hover:bg-[#5290D4]":"bg-black bg-opacity-30"} px-6 py-3  w-full rounded-3xl text-white font-bold`}>Post</button>
                 </div>
             </div>
             

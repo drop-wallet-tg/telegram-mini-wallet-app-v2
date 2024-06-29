@@ -92,7 +92,7 @@ export default function Home(){
             setTotalNFT(0)
         }
     }
-
+    
     return(
         account?(
             <div className="w-full  bg-[#180E35]">
@@ -198,7 +198,9 @@ export default function Home(){
                             <div className="flex flex-row justify-between items-center">
                                 <label className="text-[#716D9C] text-sm font-semibold">My Assets</label>
                                 <div className="flex flex-row gap-2 items-center">
-                                    <label className="text-[#b5afff] text-sm font-semibold">Total NFTs</label>
+                                    <Link href={"/wallet/nfts"} className="text-[#b5afff] text-sm font-semibold">
+                                        <span>Total NFTs</span>
+                                    </Link>
                                     <p className="text-[#b6afff78] text-sm font-semibold">{totalNft}</p>
                                     <img width={12} src="/images/svg/redo.svg" alt="icon_loading" />
                                 </div>

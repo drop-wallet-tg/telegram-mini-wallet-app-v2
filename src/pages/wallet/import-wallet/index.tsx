@@ -1,9 +1,7 @@
-import dynamic from "next/dynamic";
-
-const ImportWallet = dynamic(()=>import("@/components/Wallet/Import/ImportWallet"),{ssr:false})
+import ImportAccount from "@/components/Wallet/Import";
 
 export default function ImportWalletPage(){
     return(
-        <ImportWallet/>
+        <ImportAccount/>
     )
 }

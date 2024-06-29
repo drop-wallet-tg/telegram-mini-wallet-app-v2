@@ -113,9 +113,12 @@ export default function Mint(){
         var format = /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/g;
 		if (!format.test(nearAccount.toLowerCase())) {
 			setMsgAccount(`<span style='color:red'>Error not a valid Near address.</span>`);
-		}else if (!nearAccount.includes(".near")) {
+		}else if (!nearAccount.includes(".near")&&nearAccount.length != 64) {
             setMsgAccount("<span style='color:red'>Error not a valid Near address.</span>");
-        } 
+        }else if(nearAccount.length == 64){
+            setMsgAccount("");
+            setNearAccount(nearAccount)
+        }
         else {
 			setMsgAccount("");
             setNearAccount(nearAccount);
