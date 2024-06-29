@@ -1,4 +1,3 @@
-
 import LinkComponents from "./LinkComponents"
 
 export default function Footer(){
@@ -10,6 +9,10 @@ export default function Footer(){
         {
             link:"/wallet/nfts",
             icon: "/assets/nfts.svg"
+        },
+        {
+            link: "/wallet/browser",
+            icon: "/assets/browser.svg"
         },
         {
             link: "/wallet/history",

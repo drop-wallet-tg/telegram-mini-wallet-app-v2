@@ -3,7 +3,6 @@ import { useState } from "react";
 import Link from "next/link"
 const { parseSeedPhrase, generateSeedPhrase } = require('near-seed-phrase');
 import WebApp from "@twa-dev/sdk";
-import * as Near from "near-api-js";
 import { getAccount } from "@/hooks/SDK";
 
 

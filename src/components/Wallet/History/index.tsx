@@ -35,9 +35,9 @@ export default function History(){
     function struncate(str: string){
         let account;
         if(str){
-            if(str.length > 30){
+            if(str.length > 20){
                 const format = str.replace(".near","");
-                account = format.slice(0,3)+'...'+format.slice(-3);
+                account = format.slice(0,3)+'...'+format.slice(-3)+".near";
             }else{
                 account = str;
             }
@@ -70,7 +70,7 @@ export default function History(){
                                                     ?"App Interaction"
                                                     :data.actions[0].method=="nft_mint"?"Mint":data.actions[0].action.toLowerCase()}
                                                 </p>
-                                                <small className="text-[#bdbdbd] text-[0.7rem]">
+                                                <small className="text-[#bdbdbd] text-[0.6rem]">
                                                     {data.actions[0].action== "FUNCTION_CALL"
                                                         ?data.actions[0].method== "set"||data.actions[0].method!= "nft_mint"
                                                         ?(
@@ -83,7 +83,7 @@ export default function History(){
                                                         )
                                                         :data.actions[0].method== "nft_mint"&&<p className="font-semibold">with {struncate(data.receiver_account_id)}</p>
                                                     :data.actions[0].action =="UNKNOWN"
-                                                        ?<p>with {struncate(data.receiver_account_id)}</p>
+                                                        ?<p>with {data.receiver_account_id}</p>
                                                         :<p>to {struncate(data.receiver_account_id)}</p>
                                                     }
                                                 </small>

@@ -13,7 +13,7 @@ export default function LinkComponents({item}:{item:any}){
     const handleSelectIndex = (i:number) =>{
         localStorage.setItem("index",i.toString())
     }
-    console.log('i',selectIndex)
+    //console.log('i',selectIndex)
     return(
         item.map((data: Item,i: number)=>{
             return(
