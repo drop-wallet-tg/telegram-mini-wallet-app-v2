@@ -6,7 +6,7 @@ type Account = {
 }
 
 export default function Account({data}:{data:any}){
-    const selectIndex = Number(localStorage.getItem("index"))??0;
+    const selectIndex = Number(localStorage.getItem("item"))??0;
     
     function strucate(str: string){
         let account;
@@ -23,10 +23,9 @@ export default function Account({data}:{data:any}){
 
     const handleChooseAccount = (data:Account,i:number) =>{
         if(data){
-            localStorage.setItem("index",i.toString())
+            localStorage.setItem("item",i.toString())
             WebApp.CloudStorage.setItem("privateKey",data.privateKey);
             WebApp.CloudStorage.setItem("account",data.name);
-            WebApp.CloudStorage.removeItem("seed");
             location.replace("/")
         }
     }
