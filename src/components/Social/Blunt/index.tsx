@@ -61,7 +61,7 @@ export default function BluntDao(){
         }
     }
 
-    const handleVaildNearAccount = (event:any)=>{
+    const handleVaildNearAccount = async(event:any)=>{
         const refered = event.target.value;
         var format = /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/g;
 		if (!format.test(refered.toLowerCase())) {
@@ -71,110 +71,125 @@ export default function BluntDao(){
         } 
         else {
 			setMsgRefered("");
-            setRefered(refered);
+            const {
+                data
+            } = await getNFTBlunt(refered);
+            if (data.nft["nft.bluntdao.near"]?.length > 0){
+                setRefered(refered);
+            }else{
+                setRefered('');
+                setMsgRefered("<span style='color:red'>The referred user doesn't exist.</span>");
+            }
         }
     }
 
     const handlePostBluntDao = async()=>{
         console.log("mint nft")
         setLoading(true)
-        if(ProofOfSesh){
-			const signedDelegate = await postSocial(
-				account,
-				cid,
-				privateKey,
-				content
-			)
-			const rs = await submitTransaction(signedDelegate);
-			if (rs.transaction_outcome?.outcome?.status) {
-                //localStorage.setItem("nonce",rs.transaction.nonce)
-				// await ctx.replyWithHTML(`<b>✅ You posted on NEAR Social (<img href="https://near.social/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${data.transaction.nonce}">Open</a>) </b>`, keyboards.back());
-				const tokenId = Date.now() + "";
-				const title = `BluntDao NFT #${blunt}`;
-				const description = `${content} @bluntdao.near #ProofOfSesh #BluntDAO #${blunt}`;
-				const token_id = `bluntdao.${blunt}.${tokenId}`;
-				const signedDelegates = await mintNFT(
-					account,
-					title,
-					description,
-                    cid,
-					privateKey,
-					account,
-					token_id
-				)
-				await submitTransaction(signedDelegates)
-                location.replace(`/social/blunt/success?title=${title}&nonce=${rs.transaction.nonce}`)
-                setLoading(false)
-			}
-        }else{
-            const {
-                data
-            } = await getNFTBlunt(refered)
-            console.log("nft",data.nft)
-            let seriesId = 0;
-            if (blunt == "blunt") {
-                seriesId = 1;
-            } else if (blunt == "spliff") {
-                seriesId = 2;
-            } else if (blunt == "joint") {
-                seriesId = 3;
-            }
-            if (data.nft["nft.bluntdao.near"]?.length > 0) {
-                const signedDelegate = await mintBlunt(account,seriesId.toString());
-                const result = await submitTransaction(signedDelegate);
-                const tokenId = Date.now() + "";
-                const title = `BluntDao NFT #${blunt}`;
-                const description = `${content} @bluntdao.near #ProofOfSesh #BluntDAO #${blunt}`;
-                const token_id = `bluntdao.${blunt}.${tokenId}`;
-                const signedDelegateMint = await mintNFT(
+        if(refered){
+            if(ProofOfSesh){
+                const signedDelegate = await postSocial(
                     account,
-                    title,
-                    description,
                     cid,
                     privateKey,
-                    account,
-                    token_id
+                    content
                 )
-                //localStorage.setItem("title",title);
-                await submitTransaction(signedDelegateMint)
-                if (result) {
-                    WebApp.CloudStorage.setItem("proofofsesh","true");
-                    const content = `Just got onboard with a ${blunt.toUpperCase()} by @${refered} via #ProofOfSesh to #BluntDAO @bluntdao.near Now I'm an #OGValidator, sesh with me IRL to get onboarded`
-                    const delegate =  await postSocial(
+                const rs = await submitTransaction(signedDelegate);
+                if (rs.transaction_outcome?.outcome?.status) {
+                    //localStorage.setItem("nonce",rs.transaction.nonce)
+                    // await ctx.replyWithHTML(`<b>✅ You posted on NEAR Social (<img href="https://near.social/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${data.transaction.nonce}">Open</a>) </b>`, keyboards.back());
+                    const tokenId = Date.now() + "";
+                    const title = `BluntDao NFT #${blunt}`;
+                    const description = `${content} @bluntdao.near #ProofOfSesh #BluntDAO #${blunt}`;
+                    const token_id = `bluntdao.${blunt}.${tokenId}`;
+                    const signedDelegates = await mintNFT(
                         account,
+                        title,
+                        description,
                         cid,
                         privateKey,
-                        content
+                        account,
+                        token_id
                     )
-                    const rs = await submitTransaction(delegate);
-                    if (rs.final_execution_status == "FINAL") {
-                        const {
-                            data
-                        } = await getNFTBlunt(account);
-                        //localStorage.setItem("contractId",data.nft["nft.bluntdao.near"][0].nft_contract_id);
-                        //localStorage.setItem("tokenId",data.nft["nft.bluntdao.near"][0].token_id);
-                        //localStorage.setItem("nonce",rs.transaction.nonce)
-                        const addDelegate = await addBlunt(
-                            account,
-                            blunt,
-                            privateKey,
-                            rs.transaction.nonce
-                        )
-                        await submitTransaction(addDelegate)
-                        const followDelegate = await followBlunt(
-                            account,
-                            privateKey
-                        )
-                        await submitTransaction(followDelegate);
-                        location.replace(`/social/blunt/success?title=${title}&contractId=${data.nft["nft.bluntdao.near"][0].nft_contract_id}&tokenId=${data.nft["nft.bluntdao.near"][0].token_id}&nonce=${rs.transaction.nonce}`)
-                    } 
+                    await submitTransaction(signedDelegates)
+                    location.replace(`/social/blunt/success?title=${title}&nonce=${rs.transaction.nonce}`)
+                    setLoading(false)
                 }
-            } else {
-                setLoading(false)
-                setStatus(
-                    `<b style='color:red;font-size:14px;'>An og with this wallet doesn't exits.</b>`
-                );
+            }else{
+                const {
+                    data
+                } = await getNFTBlunt(refered)
+                console.log("nft",data.nft)
+                let seriesId = 0;
+                if (blunt == "blunt") {
+                    seriesId = 1;
+                } else if (blunt == "spliff") {
+                    seriesId = 2;
+                } else if (blunt == "joint") {
+                    seriesId = 3;
+                }
+                if (data.nft["nft.bluntdao.near"]?.length > 0) {
+                    const signedDelegate = await mintBlunt(account,seriesId.toString());
+                    const result = await submitTransaction(signedDelegate);
+                    const tokenId = Date.now() + "";
+                    const title = `BluntDao NFT #${blunt}`;
+                    const description = `${content} @bluntdao.near #ProofOfSesh #BluntDAO #${blunt}`;
+                    const token_id = `bluntdao.${blunt}.${tokenId}`;
+                    const signedDelegateMint = await mintNFT(
+                        account,
+                        title,
+                        description,
+                        cid,
+                        privateKey,
+                        account,
+                        token_id
+                    )
+                    //localStorage.setItem("title",title);
+                    await submitTransaction(signedDelegateMint)
+                    if (result) {
+                        WebApp.CloudStorage.setItem("proofofsesh","true");
+                        const content = `Just got onboard with a ${blunt.toUpperCase()} by @${refered} via #ProofOfSesh to #BluntDAO @bluntdao.near Now I'm an #OGValidator, sesh with me IRL to get onboarded`
+                        const delegate =  await postSocial(
+                            account,
+                            cid,
+                            privateKey,
+                            content
+                        )
+                        const rs = await submitTransaction(delegate);
+                        if (rs.final_execution_status == "FINAL") {
+                            const {
+                                data
+                            } = await getNFTBlunt(account);
+                            //localStorage.setItem("contractId",data.nft["nft.bluntdao.near"][0].nft_contract_id);
+                            //localStorage.setItem("tokenId",data.nft["nft.bluntdao.near"][0].token_id);
+                            //localStorage.setItem("nonce",rs.transaction.nonce)
+                            const addDelegate = await addBlunt(
+                                account,
+                                blunt,
+                                privateKey,
+                                rs.transaction.nonce
+                            )
+                            await submitTransaction(addDelegate)
+                            const followDelegate = await followBlunt(
+                                account,
+                                privateKey
+                            )
+                            await submitTransaction(followDelegate);
+                            location.replace(`/social/blunt/success?title=${title}&contractId=${data.nft["nft.bluntdao.near"][0].nft_contract_id}&tokenId=${data.nft["nft.bluntdao.near"][0].token_id}&nonce=${rs.transaction.nonce}`)
+                        } 
+                    }
+                } else {
+                    setLoading(false)
+                    setStatus(
+                        `<b style='color:red;font-size:14px;'>An og with this wallet doesn't exits.</b>`
+                    );
+                }
             }
+        }else{
+            setLoading(false);
+            setStatus(
+                `<b style='color:red;font-size:14px;'>Please enter refered.</b>`
+            );
         }
         
     }
@@ -194,16 +209,7 @@ export default function BluntDao(){
                     </Link>
                     <label className="text-lg text-white font-bold m-auto">Blunt DAO</label>
                 </div>
-                {status&&(
-                        <div className="bg-red-200 px-6 py-4 my-4 rounded-md text-lg flex items-center mx-auto max-w-lg">
-                            <svg viewBox="0 0 24 24" className="text-red-600 w-5 h-5 sm:w-5 sm:h-5 mr-3">
-                                <path fill="currentColor"
-                                    d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z">
-                                </path>
-                            </svg>
-                            <div className="text-red-800 text-sm" dangerouslySetInnerHTML={{__html:status}}/>
-                        </div>
-                    )}
+                
                 <div className="mt-8 w-full">
                     
                     <label className="mb-12 mt-2 text-white">Take a picture of the smoking stick</label><br/>
@@ -284,8 +290,18 @@ export default function BluntDao(){
                         <div dangerouslySetInnerHTML={{__html:msgRefered}}/>
                     )}
                 </div>
+                {status&&(
+                        <div className="bg-red-200 px-6 py-3 my-4 rounded-md flex items-center mx-auto max-w-lg">
+                            <svg viewBox="0 0 24 24" className="text-red-600 w-5 h-5 sm:w-5 sm:h-5 mr-3">
+                                <path fill="currentColor"
+                                    d="M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z">
+                                </path>
+                            </svg>
+                            <small className="text-red-800 text-[0.4rem]" dangerouslySetInnerHTML={{__html:status}}/>
+                        </div>
+                    )}
                 <div className="mt-12 w-full">
-                    <button onClick={handlePostBluntDao} className="px-6 py-3 bg-[#2775CA] hover:bg-[#5290D4] w-full rounded-3xl text-white font-bold">Mint</button>
+                    <button onClick={handlePostBluntDao} disabled={!refered}  className={`${refered?"bg-[#2775CA] hover:bg-[#5290D4]":"bg-black bg-opacity-30"} px-6 py-3 w-full rounded-3xl text-white font-bold`}>Mint</button>
                 </div>
             </div>
             
