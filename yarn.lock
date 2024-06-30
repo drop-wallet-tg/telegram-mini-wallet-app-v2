@@ -579,6 +579,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-page-visibility@^6.4.4":
+  version "6.4.4"
+  resolved "https://registry.npmjs.org/@types/react-page-visibility/-/react-page-visibility-6.4.4.tgz"
+  integrity sha512-qeL/98+LHVp5vQH4RjzyLwJib5ekUmKGURmJEXWwQYasr/vKJsdHUblHVaOUtV2sdrrXo2aBtd/sfMOorxkdoQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^17.0.0 || ^18.0.0", "@types/react@^18.3.2":
   version "18.3.2"
   resolved "https://registry.npmjs.org/@types/react/-/react-18.3.2.tgz"

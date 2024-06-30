@@ -18,7 +18,9 @@ export default function Home(){
     const [token,setToken] = useState<any>([]);
     const [nfts, setNFTs] = useState<any>([]);
     const [totalNft,setTotalNFT] = useState<number>(0);
+
     useEffect(()=>{
+        localStorage.setItem("index",'0')
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs))
         console.log("acc",account)
         if(account){
@@ -27,6 +29,7 @@ export default function Home(){
             loadToken();
         }
     },[account])
+    
     const load = async()=>{
         const nearBalance =  await getAmount(account)
         const tokenPrice  = (await axios.get(`${process.env.NEXT_PUBLIC_NETWORK_ID =="mainnet"  ? process.env.REFFINANCE_MAINNET  : process.env.REFFINANCE_TESTNET}`)).data;

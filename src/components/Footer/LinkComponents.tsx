@@ -1,7 +1,6 @@
 "use client"
 import Link from "next/link";
 
-
 type Item = {
     link: string,
     icon: string | any
@@ -9,11 +8,11 @@ type Item = {
 
 export default function LinkComponents({item}:{item:any}){
     const selectIndex = Number(localStorage.getItem("index"))??0;
-    
+
     const handleSelectIndex = (i:number) =>{
         localStorage.setItem("index",i.toString())
     }
-    //console.log('i',selectIndex)
+
     return(
         item.map((data: Item,i: number)=>{
             return(
