@@ -40,7 +40,7 @@ export default function ImportAccount(){
                 </div>
                 {choose.map((dt:any,indx:number)=>{
                     return(
-                        <div onClick={()=>{
+                        <div key={indx} onClick={()=>{
                             setSelectIndex(indx)
                             setLink(dt.link)
                         }} className="mt-10 cursor-pointer break-words w-full h-32 p-3 bg-[#1b1b2694] bg-opacity-10 text-white rounded-lg border border-gray-200 border-opacity-30 shadow-sm outline-none focus:border-white focus:border-opacity-65">
