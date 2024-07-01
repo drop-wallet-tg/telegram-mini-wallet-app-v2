@@ -38,3 +38,49 @@
 .toastify{
     bottom: 4rem !important;
 }
+
+.copy-text:before{
+    content: "Copied";
+    position: absolute;
+    bottom: -40px;
+    right: -15px;
+    background: #b5afff;
+    padding: 0.2rem 0.6rem;
+    border-radius: 25px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+}
+
+.copy-text:after{
+    content:"";
+    position: absolute;
+    bottom: -20px;
+    right: 10px;
+    width: 10px;
+    height: 10px;
+    background: #b5afff;
+    transform: rotate(45deg);
+}
+.copy:before{
+    content: "Copied";
+    position: absolute;
+    bottom: -40px;
+    right: 5px;
+    background: #b5afff;
+    padding: 0.2rem 0.6rem;
+    border-radius: 25px;
+    font-size: 0.8rem;  
+    font-weight: bold;
+    color: white;
+}
+.copy:after{
+    content:"";
+    position: absolute;
+    bottom: -20px;
+    right: 30px;
+    width: 10px;
+    height: 10px;
+    background: #b5afff;
+    transform: rotate(45deg);
+}

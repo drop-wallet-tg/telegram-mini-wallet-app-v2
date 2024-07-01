@@ -63,6 +63,8 @@ export default function Send(){
             
         }
     }
+
+
     return(
         <div className="w-full min-h-screen bg-[#180E35]">
             <Header/>

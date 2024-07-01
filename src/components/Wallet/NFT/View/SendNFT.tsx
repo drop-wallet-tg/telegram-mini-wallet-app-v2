@@ -36,6 +36,14 @@ export default function SendNFT({tokenId}:{tokenId:string}){
             });
         }
     }
+
+    const struncate = (str: string) =>{
+        if(str.length > 80){
+            return str.slice(0,80)+"...";
+        }
+        return str;
+    }
+
     return(
         <div className="w-full bg-[#180E35]">
             <div className="min-h-screen">
@@ -64,7 +72,7 @@ export default function SendNFT({tokenId}:{tokenId:string}){
                     </div>
                     <div className="mt-10">
                             <label htmlFor="description" className="text-[#b5b5b5]">Description</label>
-                            <p className="text-white font-semibold mt-2">{nft.description}</p>
+                            <p className="text-white font-semibold mt-2">{struncate(nft.description)}</p>
                     </div>
                 </div>
             </div>

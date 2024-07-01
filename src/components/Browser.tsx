@@ -10,7 +10,7 @@ export default function Browser(){
             <div className="min-h-screen">
                 <Header/>
                 <div className="p-5">
-                    <div className="mt-2">
+                    {/* <div className="mt-2">
                         <h5 className="text-white font-semibold text-xl">Digital nomads</h5>
                         <div className="mt-3">
                             <Link target="_blank" href="https://www.potlock.org/" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
@@ -22,11 +22,11 @@ export default function Browser(){
                                 <Image width={15} height={15} src="/assets/arrow-right.svg" alt="arrow"/>
                             </Link>
                         </div>
-                    </div>
-                    <div className="mt-8">
+                    </div> */}
+                    <div className="mt-2">
                         <h5 className="text-white font-semibold text-xl">Social</h5>
                         <div className="mt-3">
-                            <Link target="_blank" href="https://near.social/" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
+                            <Link href="/social/post" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
                                 <Image height={20} width={30} src="/assets/near-social.png" className="py-6" alt="near-social" />
                                 <div className="flex flex-col text-white">
                                     <span className="font-semibold">Near Social</span>
@@ -34,7 +34,7 @@ export default function Browser(){
                                 </div>
                                 <Image width={15} height={15} src="/assets/arrow-right.svg" alt="arrow"/>
                             </Link>
-                            <Link target="_blank" href="https://www.bluntdao.org/" className="flex mt-2 flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
+                            <Link href="/social/blunt" className="flex mt-2 flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
                                 <Image height={20} width={30} src="/assets/blunt-dao.png" className="py-4" alt="bluntdao" />
                                 <div className="flex flex-col text-white">
                                     <span className="font-semibold">BluntDao</span>
@@ -47,7 +47,7 @@ export default function Browser(){
                     <div className="mt-8">
                         <h5 className="text-white font-semibold text-xl">NFT</h5>
                         <div className="mt-3">
-                            <Link target="_blank" href="https://www.genadrop.com/" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
+                            <Link href="/wallet/nfts/mint" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
                                 <Image height={20} width={30} src="/assets/genadrop.svg" className="py-6" alt="genadrop" />
                                 <div className="flex flex-col text-white">
                                     <span className="font-semibold">Genadrop</span>
@@ -55,7 +55,7 @@ export default function Browser(){
                                 </div>
                                 <Image width={15} height={15} src="/assets/arrow-right.svg" alt="arrow"/>
                             </Link>
-                            <Link target="_blank" href="https://www.mintbase.xyz/" className="flex mt-2 flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
+                            <Link href="/wallet/nfts/mint" className="flex mt-2 flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
                                 <img height={20} width={30} src="https://www.mintbase.xyz/favicon.ico" className="py-6" alt="mintbase" />
                                 <div className="flex flex-col text-white">
                                     <span className="font-semibold">MintBase</span>
@@ -65,7 +65,7 @@ export default function Browser(){
                             </Link>
                         </div>
                     </div>
-                    <div className="mt-8">
+                    {/* <div className="mt-8">
                         <h5 className="text-white font-semibold text-xl">DeFi</h5>
                         <div className="mt-3">
                             <Link target="_blank" href="https://app.ref.finance/" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
@@ -77,7 +77,7 @@ export default function Browser(){
                                 <Image width={15} height={15} src="/assets/arrow-right.svg" alt="arrow"/>
                             </Link>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <Footer/>
