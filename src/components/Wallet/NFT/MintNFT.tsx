@@ -125,72 +125,78 @@ export default function Mint(){
         }
     }
 
+    const checkEnough = () =>{
+        if(title&&description&&cid&&nearAccount) return true;
+        return false
+    }
+
     const handleMintNFT = async()=>{
         console.log("mint nft")
         setLoading(true)
-        if(select[0]=="GENADROP"){
-            try{
-                const tokenId = Date.now() + "";
-                const signedDelegate = await mintNFT(
-                    account,
-                    title,
-                    description,
-                    cid,
-                    privateKey,
-                    nearAccount,
-                    tokenId
-                );
-                const data = await submitTransaction(signedDelegate);
-                if (
-                    data.final_execution_status == "FINAL"
-                ) {
-                    location.replace(`/wallet/nfts/mint/success?tokenId=${tokenId}&title=${title}`);
+        if(title&&description&&cid){
+            if(select[0]=="GENADROP"){
+                try{
+                    const tokenId = Date.now() + "";
+                    const signedDelegate = await mintNFT(
+                        account,
+                        title,
+                        description,
+                        cid,
+                        privateKey,
+                        nearAccount,
+                        tokenId
+                    );
+                    const data = await submitTransaction(signedDelegate);
+                    if (
+                        data.final_execution_status == "FINAL"
+                    ) {
+                        location.replace(`/wallet/nfts/mint/success?tokenId=${tokenId}&title=${title}`);
+                    }
+                }catch(error){
+                    console.log(error)
                 }
-            }catch(error){
-                console.log(error)
-            }
-        }else if(select[0]=="MINTBASE"){
-            try{
-                const tokenId = Date.now() + "";
-                const signedDelegate = await mintNFT(
-                    account,
-                    title,
-                    description,
-                    cid,
-                    privateKey,
-                    nearAccount,
-                    tokenId
-                );
-                const data = await submitTransaction(signedDelegate);
-                if (
-                    data.final_execution_status == "FINAL"
-                ) {
-                    location.replace(`/wallet/nfts/mint/success?tokenId=${tokenId}&title=${title}`);
+            }else if(select[0]=="MINTBASE"){
+                try{
+                    const tokenId = Date.now() + "";
+                    const signedDelegate = await mintNFT(
+                        account,
+                        title,
+                        description,
+                        cid,
+                        privateKey,
+                        nearAccount,
+                        tokenId
+                    );
+                    const data = await submitTransaction(signedDelegate);
+                    if (
+                        data.final_execution_status == "FINAL"
+                    ) {
+                        location.replace(`/wallet/nfts/mint/success?tokenId=${tokenId}&title=${title}`);
+                    }
+                }catch(error){
+                    console.log(error)
                 }
-            }catch(error){
-                console.log(error)
+                // const signedDelegate = await MintBase({
+                //     accountId: account,
+                //     privateKey: privateKey,
+                //     title: title,
+                //     description: description,
+                //     media: file as File,
+                // })
+                // const data = await submitTransaction(signedDelegate);
+                // if (
+                //     data.transaction_outcome?.outcome?.status
+                //         ?.SuccessReceiptId
+                // ) {
+                //     setLoading(false);
+                //     localStorage.setItem("title",title);
+                //     location.replace("/wallet/nfts/mint/success")
+                // }
+            }else{
+                setLoading(false)
+                console.log("select error")
             }
-            // const signedDelegate = await MintBase({
-            //     accountId: account,
-            //     privateKey: privateKey,
-            //     title: title,
-            //     description: description,
-            //     media: file as File,
-            // })
-            // const data = await submitTransaction(signedDelegate);
-            // if (
-            //     data.transaction_outcome?.outcome?.status
-            //         ?.SuccessReceiptId
-            // ) {
-            //     setLoading(false);
-            //     localStorage.setItem("title",title);
-            //     location.replace("/wallet/nfts/mint/success")
-            // }
-        }else{
-            setLoading(false)
-            console.log("select error")
         }
-        
     }
     console.log("select",select[0])
     return(
@@ -316,7 +322,7 @@ export default function Mint(){
                     )}
                 </div>
                 <div className="mt-5 w-full">
-                    <button onClick={handleMintNFT} className="px-6 py-3 bg-[#2775CA] hover:bg-[#5290D4] w-full rounded-3xl text-white font-bold">Mint</button>
+                    <button onClick={handleMintNFT} disabled={!checkEnough()} className={`px-6 py-3 ${checkEnough()?"bg-[#2775CA] hover:bg-[#5290D4]":"bg-black bg-opacity-30"} w-full rounded-3xl text-white font-bold`}>Mint</button>
                 </div>
             </div>
             

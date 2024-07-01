@@ -10,11 +10,16 @@ const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 export default function ExportPrivateKey(){
     const [privateKey,setPrivateKey] = useState<string>('');
     const [hidden,setHidden] = useState<boolean>(false);
+    const [isCopy,setIsCopy] = useState<boolean>(false);
     useEffect(()=>{
         WebApp.CloudStorage.getItem("privateKey",(err,rs)=>setPrivateKey(rs as string))
     },[privateKey])
     const hanldeCopy = ()=>{
         navigator.clipboard.writeText(privateKey)
+        setIsCopy(true)
+        setTimeout(function(){
+            setIsCopy(false)
+        },1000)
     }
     return(
         <div className="w-full min-h-screen bg-[#180E35] relative">
@@ -22,7 +27,7 @@ export default function ExportPrivateKey(){
             <div className="p-5">
                 <div className="flex flex-row items-center text-center">
                     <Link href="/wallet/setting">
-                        <img src="/images/icon/Arrow.svg" alt="arrow" />
+                        <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" alt="arrow" />
                     </Link>
                     <label className="text-lg text-white font-bold m-auto">Export Private Key</label>
                 </div>
@@ -37,8 +42,8 @@ export default function ExportPrivateKey(){
                         </div>
                     )}
                 </div>
-                <div className="mt-3">
-                    <button onClick={hanldeCopy} className="flex flex-row hover:bg-[#492ba24e] px-2 py-1 rounded-full justify-between gap-1.5 items-center">
+                <div className="mt-5">
+                    <button onClick={hanldeCopy} className={`${isCopy?"copy":""} relative flex flex-row hover:bg-[#492ba24e] px-2 py-1 rounded-full justify-between gap-1.5 items-center`}>
                         <span>
                             <svg width={15} viewBox="0 0 24 24" fill="#ffffff" focusable="false" aria-hidden="true"><path fill="#ffffff" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>
                         </span>
