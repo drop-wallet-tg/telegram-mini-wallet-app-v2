@@ -38,10 +38,12 @@ export default function SendNFT({tokenId}:{tokenId:string}){
     }
 
     const struncate = (str: string) =>{
-        if(str.length > 80){
-            return str.slice(0,80)+"...";
+        if(str){
+            if(str.length > 80){
+                return str.slice(0,80)+"...";
+            }
+            return str;
         }
-        return str;
     }
 
     return(
