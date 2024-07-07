@@ -8,14 +8,41 @@ import {
   bindMiniAppCSSVars,
   bindThemeParamsCSSVars, bindViewportCSSVars,
 } from '@tma.js/sdk-react';
-import { type FC, useEffect, useMemo } from 'react';
+import { type FC, useEffect, useMemo,useState } from 'react';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useRouter as useNavigationRouter } from 'next/navigation';
+import { AnimatePresence } from 'framer-motion';
 
 import "./globals.css";
 import 'react-toastify/dist/ReactToastify.css';
 
+
+const Loading = () => {
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
+  useEffect(()=>{
+    const handleStart = (url:string) => (url!==router.asPath) && setLoading(true);
+    const handleComplete = (url:string) => (url!==router.asPath) && setTimeout(()=>{setLoading(false)},1000);
+
+    router.events.on('routeChangeStart',handleStart);
+    router.events.on('routeChangeComplete',handleComplete);
+    router.events.on('routeChangeError',handleComplete);
+
+    return () =>{
+      router.events.off('routeChangeStart',handleStart);
+      router.events.off('routeChangeComplete',handleComplete);
+      router.events.off('routeChangeError',handleComplete);
+    }
+  },[])
+  return loading&&(
+    <div className="loader">
+      <span className="bar"></span>
+      <span className="bar"></span>
+      <span className="bar"></span>
+    </div>  
+  )
+}
 
 const BackButtonManipulator: FC = () => {
   const router = useRouter();
@@ -83,6 +110,9 @@ const Inner: FC<AppProps> = (props) => {
 
 export default function CustomApp(props: AppProps) {
   return (
-    <Inner {...props}/>
+    <>
+      <Loading/>
+      <Inner {...props}/>
+    </>
   );
 };

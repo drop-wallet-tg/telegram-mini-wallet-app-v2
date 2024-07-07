@@ -13,6 +13,8 @@ export default function ShowNFT(){
     const [account,setAccount] = useState<string>('');
     const [nfts, setNFTs] = useState<any>([]);
     const [totalNft,setTotalNFT] = useState<number>(0);
+    const [pending,setPending] = useState<boolean>(false);
+
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
         if(account){
@@ -20,6 +22,7 @@ export default function ShowNFT(){
         }
     },[account])
     const loadNFT = async() =>{
+        setPending(true)
         const {data} = await getNFT(account);
         //setNFTs(data.nft);
         if(Object.keys(data).length > 0){
@@ -51,7 +54,9 @@ export default function ShowNFT(){
             });
             setNFTs(listNFT)
             setTotalNFT(totalNft);
+            setPending(false)
         }else{
+            setPending(false)
             setTotalNFT(0)
         }
     }
@@ -76,7 +81,15 @@ export default function ShowNFT(){
                         </div>
                     </div>
                     <div className="mt-5 flex flex-row gap-3 flex-wrap">
-                        {nfts}
+                        {
+                            !pending
+                            ? nfts
+                            : <div className="flex flex-row gap-5 items-start relative animate-pulse">
+                                <div className="h-24 w-24 bg-[#271a56] rounded-lg"></div>
+                                <div className="h-24 w-24 bg-[#271a56] rounded-lg"></div>
+                                <div className="h-24 w-24 bg-[#271a56] rounded-lg"></div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

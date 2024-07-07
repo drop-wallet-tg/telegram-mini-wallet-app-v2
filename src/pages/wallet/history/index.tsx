@@ -2,8 +2,10 @@ import dynamic from "next/dynamic"
 
 const History = dynamic(()=>import("@/components/Wallet/History"),{ssr:false})
 
-export default function HistoryPage(){
+const HistoryPage = () =>{
     return(
         <History/>
     )
 }
+
+export default HistoryPage;

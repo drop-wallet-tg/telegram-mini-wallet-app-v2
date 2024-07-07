@@ -2,7 +2,6 @@
 import { useState,useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 import Sidebar from "../Sidebar";
-import { ToastContainer, toast } from 'react-toastify';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 export default function Header(){
@@ -15,16 +14,11 @@ export default function Header(){
     },[account])
 
     function strucate(str: string){
-        let account;
-        if(str){
-            if(str.length > 30){
-                const format = str.replace(".near","");
-                account = format.slice(0,3)+'...'+format.slice(-3);
-            }else{
-                account = str;
-            }
+        if(str.length > 30){
+            const format = str.replace(".near","");
+            return format.slice(0,3)+'...'+format.slice(-3);
         }
-        return account;
+        return str;
     }
 
     function checkCopy(){
@@ -36,14 +30,18 @@ export default function Header(){
 
     return(
         <div>
-            <ToastContainer  position="bottom-right" className="toastify"/>
             <div className="flex flex-row justify-start bg-[#180E35] w-full py-3 px-4 border-b border-[#20114f] sticky top-0 z-50">
                 <button type="button" onClick={()=>setIsShow((prv)=>!prv)} className="text-gray-500 hover:text-gray-600" data-hs-overlay="#docs-sidebar" aria-controls="docs-sidebar" aria-label="Toggle navigation">
                     <span className="sr-only">Toggle Navigation</span>
                     <img width={25} src="/assets/menu.svg" alt="menu" />
                 </button>
                 <div className="flex flex-row gap-1 items-center m-auto">
-                    <h1 className="text-xl ml-5 text-center font-semibold text-white">{strucate(account)}</h1>
+                    {account
+                    ? <h1 className="text-xl ml-5 text-center font-semibold text-white">{strucate(account)}</h1>
+                    : <div className="animate-pulse">
+                        <h1 className="text-xl ml-5 w-28 h-4 text-center font-semibold bg-[#271a56] rounded-lg"></h1>
+                    </div>
+                    }
                     <CopyToClipboard text={account}
                         onCopy={()=>checkCopy()}>
                         <div className="relative">
