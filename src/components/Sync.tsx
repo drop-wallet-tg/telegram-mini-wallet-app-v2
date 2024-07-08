@@ -85,7 +85,7 @@ const SyncWallet = () =>{
                     </div>
                     :(
                         <div className="flex flex-col mx-auto text-center">
-                            <span className="text-orange-400 font-semibold">You currently don't have any accounts to sync! Please create a new account..!</span>
+                            <span className="text-orange-400 font-semibold">You currently don&apos;t have any accounts to sync! Please create a new account..!</span>
                         </div>
                     )
                     }
