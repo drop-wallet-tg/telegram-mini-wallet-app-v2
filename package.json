@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@builddao/near-social-js": "^1.0.1",
     "@heroicons/react": "^2.1.4",
     "@near-js/accounts": "^1.2.1",
     "@near-js/crypto": "^1.2.4",

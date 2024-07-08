@@ -21,6 +21,7 @@ const Home = () => {
     const [totalNft,setTotalNFT] = useState<number>(0);
     const [pending,setPending] = useState<boolean>(false);
 
+    
     useEffect(()=>{
         localStorage.setItem("index",'0')
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
@@ -31,6 +32,7 @@ const Home = () => {
         }
     },[account])
     
+
     const load = async()=>{
         const nearBalance =  await getAmount(account as string)
         const tokenPrice  = (await axios.get(`${process.env.NEXT_PUBLIC_NETWORK_ID =="mainnet"  ? process.env.REFFINANCE_MAINNET  : process.env.REFFINANCE_TESTNET}`)).data;
@@ -99,6 +101,9 @@ const Home = () => {
             setTotalNFT(0)
         }
     }
+
+    //console.log("user telegram",WebApp.initDataUnsafe.user?.id)
+    console.log("balance",balance)
     return(
         <div>
             {account?(
@@ -114,7 +119,7 @@ const Home = () => {
                             <img src="./images/svg/info.svg" alt="info"/>
                         </div>
                         <div className="text-center mt-1">
-                            {balance
+                            {balance == 0 || balance > 0
                             ? <h2 className="text-[60px] text-white font-semibold">${balance.toFixed(2)}</h2>
                             : <div className="animate-pulse">
                                 <div className="h-20 w-24 bg-[#271a56] rounded-lg"></div>

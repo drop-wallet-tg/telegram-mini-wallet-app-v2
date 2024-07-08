@@ -33,11 +33,12 @@ export default function ConnectedApps(){
                     <label className="text-lg text-white font-semibold m-auto">Connected Apps</label>
                 </Link>
                     {txns.length > 0 && txns.map((data:any,index:number)=>{
+                        console.log(data)
                         if(data.action_kind == "ADD_KEY"){
                             return(
                                 <div key={index} className="border mt-5 border-[#363636] shadow-sm rounded-md p-5">
                                     <div className="flex flex-col items-start justify-start gap-2">
-                                        <p className="text-white font-medium">{data.args.access_key.permission.permission_details.receiver_id}</p>
+                                        <p className="text-white font-medium">{data.args.access_key.permission.permission_details&&data.args.access_key.permission.permission_details.receiver_id}</p>
                                         <button type="button">
                                             <span
                                                 className="text-primary py-1 px-3 text-xs border border-red-600 rounded-full hover:bg-gray-gray1 mb-2 mr-2">
@@ -51,11 +52,11 @@ export default function ConnectedApps(){
                                         <div className="flex w-full flex-col">
                                             <div className="flex flex-row justify-between items-center">
                                                 <span className="text-[#bdbdbdb9]">Gas Fee Allowance</span>
-                                                {data.access_key.permission.permission_details.allowance&&<span>Unlimited</span>}
+                                                {data.access_key&&data.access_key.permission.permission_details.allowance&&<span>Unlimited</span>}
                                             </div>
                                             <div className="text-[#bdbdbdb9] flex flex-row justify-between items-center">
                                                 <span>Allowed Method</span>
-                                                <span>{data.access_key.permission.permission_details.method_names.length > 0 ?data.access_key.permission.permission_details.method_names[0]:"Any"}</span>
+                                                <span>{data.access_key&&data.access_key.permission.permission_details.method_names.length > 0 ?data.access_key.permission.permission_details.method_names[0]:"Any"}</span>
                                             </div>
                                         </div>
                                     </div>

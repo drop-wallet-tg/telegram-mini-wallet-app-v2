@@ -14,6 +14,14 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@builddao/near-social-js@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@builddao/near-social-js/-/near-social-js-1.0.1.tgz"
+  integrity sha512-KRWCyoDX0OgUXqwqsSGaIl9eXjKdZmzWYQXhCpAp1WZtqsXB+11cUHaqthUtrsfYMbJGdlPWZldkPcT4Fwcv6w==
+  dependencies:
+    bignumber.js "^9.1.2"
+    near-api-js "^4.0.1"
+
 "@eslint-community/eslint-utils@^4.2.0":
   version "4.4.0"
   resolved "https://registry.npmjs.org/@eslint-community/eslint-utils/-/eslint-utils-4.4.0.tgz"
@@ -914,6 +922,11 @@ big.js@^6.2.1:
   version "6.2.1"
   resolved "https://registry.npmjs.org/big.js/-/big.js-6.2.1.tgz"
   integrity sha512-bCtHMwL9LeDIozFn+oNhhFoq+yQ3BNdnsLSASUxLciOb1vgvpHsIO1dsENiGMgbb4SkP5TrzWzRiLddn8ahVOQ==
+
+bignumber.js@^9.1.2:
+  version "9.1.2"
+  resolved "https://registry.npmjs.org/bignumber.js/-/bignumber.js-9.1.2.tgz"
+  integrity sha512-2/mKyZH9K85bzOEfhXDBFZTGd1CTs+5IHpeFQo9luiBG7hghdC851Pj2WAhb6E3R6b9tZj/XKhbg4fum+Kepug==
 
 binary-extensions@^2.0.0:
   version "2.3.0"
@@ -2614,7 +2627,7 @@ near-api-js@^2.1.4:
     node-fetch "^2.6.1"
     tweetnacl "^1.0.1"
 
-near-api-js@^4.0.2:
+near-api-js@^4.0.1, near-api-js@^4.0.2:
   version "4.0.2"
   resolved "https://registry.npmjs.org/near-api-js/-/near-api-js-4.0.2.tgz"
   integrity sha512-E39xsjWykxOAY6bqVl4q8+TYCfJHKzXEQD8ek82gf58IX8P1STKOS/x0c4yBO9wmSMdv7ZSymmENAozetgdzNQ==

@@ -14,9 +14,13 @@ export default function CreateWallet(){
                         <p>Create a new Wallet</p>
                     </Link>
                 </div>
-                <div className="pt-16">
+                <div className="pt-16 flex flex-row gap-2">
                     <Link href="/wallet/import-wallet">
                         <span className="underline text-[#ffffffa7] hover:text-white">Import an existing wallet</span>
+                    </Link>
+                    <span className="text-white">or</span>
+                    <Link href={"/wallet/sync"}>
+                        <span className="underline text-[#ffffffa7] hover:text-white">Sync account</span>
                     </Link>
                 </div>
             </div>

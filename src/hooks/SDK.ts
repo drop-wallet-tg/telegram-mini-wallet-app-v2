@@ -91,6 +91,13 @@ export const MintBase = async({ accountId,privateKey,title, description,media }:
   return delegate;
 }
 
+export const signerAccount = async() =>{
+  const keyStore = new InMemoryKeyStore();
+  await keyStore.setKey(process.env.NEXT_PUBLIC_NETWORK_ID, process.env.NEXT_PUBLIC_NETWORK_ID  == "mainnet" ? process.env.NEXT_PUBLIC_RELAYER_ACCOUNT_ID_NEAR_MAINNET: process.env.NEXT_PUBLIC_RELAYER_ACCOUNT_ID_NEAR_TESTNET , KeyPair.fromString( process.env.NEXT_PUBLIC_NETWORK_ID  == "mainnet" ? process.env.RELAYER_PRIVATE_KEY_NEAR_MAINNET: process.env.RELAYER_PRIVATE_KEY_NEAR_TESTNET ));
+  const signerAccount = await connects(process.env.NEXT_PUBLIC_NETWORK_ID  == "mainnet" ? process.env.NEXT_PUBLIC_RELAYER_ACCOUNT_ID_NEAR_MAINNET as string : process.env.NEXT_PUBLIC_RELAYER_ACCOUNT_ID_NEAR_TESTNET as string , keyStore,process.env.NEXT_PUBLIC_NETWORK_ID );
+  return signerAccount;
+}
+
 export const CreateAccount = async(accountId:any) => {
     console.log("accountid: ",accountId)
     const keyStore = new InMemoryKeyStore();

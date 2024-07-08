@@ -9,6 +9,9 @@
 # testing
 /coverage
 
+#data
+/src/data/data.json
+
 # next.js
 /.next/
 /out/

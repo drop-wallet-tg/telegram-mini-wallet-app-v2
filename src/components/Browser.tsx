@@ -10,10 +10,10 @@ export default function Browser(){
             <div className="min-h-screen">
                 <Header/>
                 <div className="p-5">
-                    {/* <div className="mt-2">
+                    <div className="mt-2">
                         <h5 className="text-white font-semibold text-xl">Digital nomads</h5>
                         <div className="mt-3">
-                            <Link target="_blank" href="https://www.potlock.org/" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
+                            <Link href="/digital/potlock" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
                                 <Image height={20} width={30} src="/assets/potlock.png" className="py-6" alt="potlock" />
                                 <div className="flex flex-col text-white">
                                     <span className="font-semibold">Potlock</span>
@@ -22,8 +22,8 @@ export default function Browser(){
                                 <Image width={15} height={15} src="/assets/arrow-right.svg" alt="arrow"/>
                             </Link>
                         </div>
-                    </div> */}
-                    <div className="mt-2">
+                    </div>
+                    <div className="mt-8">
                         <h5 className="text-white font-semibold text-xl">Social</h5>
                         <div className="mt-3">
                             <Link href="/social/post" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">

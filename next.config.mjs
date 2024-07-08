@@ -16,7 +16,8 @@ const nextConfig = {
         BLUNT_PRIVATE_KEY_MAINNET:process.env.BLUNT_PRIVATE_KEY_MAINNET,
         BLUNT_SPUTNIK_DAO_MAINNET: "blunt.sputnik-dao.near",
         PROXY_ADDRESS: "0.minsta.proxy.mintbase.near",
-        CONTRACT_ADDRESS:process.env.CONTRACT_ADDRESS
+        CONTRACT_ADDRESS:process.env.CONTRACT_ADDRESS,
+        JWT_TOKEN:process.env.JWT_TOKEN
     },
 };
 
