@@ -8,8 +8,10 @@ const SyncWallet = () =>{
     const [listAccount,setListAccount] = useState<any>([]);
     const [isSelect,setIsSelect] = useState<boolean>(false);
     const [status,setStatus] = useState<string|null>(null);
+    const [userID,setUserId] = useState<string>('')
 
     useEffect(()=>{
+        setUserId(WebApp.initDataUnsafe.user?.id.toString() as string)
         Load()
     },[])
 
@@ -27,20 +29,20 @@ const SyncWallet = () =>{
         if(isSelect){
             const Accounts = [
                 {
-                    name: listAccount["257574010"].accountId,
-                    privateKey: listAccount["257574010"].privateKey,
+                    name: listAccount[userID].accountId,
+                    privateKey: listAccount[userID].privateKey,
                 }
             ]
             localStorage.setItem('accounts',JSON.stringify(Accounts))
-            WebApp.CloudStorage.setItem("privateKey",listAccount["257574010"].privateKey);
-            WebApp.CloudStorage.setItem("account",listAccount["257574010"].accountId);
+            WebApp.CloudStorage.setItem("privateKey",listAccount[userID].privateKey);
+            WebApp.CloudStorage.setItem("account",listAccount[userID].accountId);
             location.replace("/");
         }else{
             setStatus("<b>Please choose account!</b>")
         }
         
     }
-
+    //console.log("user",userID)
 
     //console.log(listAccount)
     return(
@@ -52,7 +54,7 @@ const SyncWallet = () =>{
                     <p className="text-normal w-2/3 text-center text-[#716D9C]">Choose how you&apos;d like to set up your wallet</p>
                 </div>
                 <div className="mt-5 px-20">
-                    {Object.values(listAccount).length > 0 
+                    {Object.values(listAccount).length > 0 && listAccount[userID]
                     ? <div className="flex flex-col">
                         <div className="-m-1.5 overflow-x-auto">
                             <div className="p-1.5 min-w-full inline-block align-middle">
@@ -75,7 +77,7 @@ const SyncWallet = () =>{
                                                 <div className="transition"></div>
                                             </label>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-neutral-200">{listAccount["257574010"].accountId}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-neutral-200">{listAccount[userID]&&listAccount[userID].accountId}</td>
                                     </tr>
                                 </tbody>
                                 </table>
@@ -103,7 +105,7 @@ const SyncWallet = () =>{
                     </div>
                     )}
                 {
-                    Object.values(listAccount).length > 0
+                    Object.values(listAccount).length > 0 && listAccount[userID]
                     ?(
                         <div className="absolute bottom-0 left-0 mb-10 w-full flex flex-col justify-center items-center">
                             <button onClick={handleSync} className="px-6 py-3 text-center bg-[#2775CA] w-3/4 rounded-3xl text-white hover:bg-[#4f95e1] font-semibold">Sync Wallet</button>

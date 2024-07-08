@@ -23,7 +23,7 @@ const Home = () => {
 
     
     useEffect(()=>{
-        localStorage.setItem("index",'0')
+        localStorage.setItem("linkIndex",'0')
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
         if(account){
             load();

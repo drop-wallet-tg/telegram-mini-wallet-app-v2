@@ -7,10 +7,10 @@ type Item = {
 }
 
 export default function LinkComponents({item}:{item:any}){
-    const selectIndex = Number(localStorage.getItem("index"))??0;
+    const selectIndex = Number(localStorage.getItem("linkIndex"))??0;
 
     const handleSelectIndex = (i:number) =>{
-        localStorage.setItem("index",i.toString())
+        localStorage.setItem("linkIndex",i.toString())
     }
 
     return(
