@@ -4,8 +4,8 @@ import { useState,useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 import axios from "axios";
 import Big from "big.js";
-import { viewMethod,connectAccount } from "@/hooks/SDK";
-
+import { viewMethod,connectAccount, getAmount } from "@/hooks/SDK";
+import * as Near from "near-api-js"
 
 
 
@@ -27,6 +27,7 @@ const PotLock = () =>{
     const [nearToUsd, setNearToUsd] = useState<number|null>(null);
     const [note, setNote] = useState<string>('');
     const [projectId, setProjectID] = useState<string|null>(null);
+    const [donateSuccess, setDonateSuccess] = useState<boolean>(false);
 
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccountId(rs as string))
@@ -40,8 +41,12 @@ const PotLock = () =>{
     },[accountId])
 
     const loadNearToUsd = async()=>{
-        const res = await axios.get("https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd");
-        setNearToUsd(res.data.near.usd)
+        try{
+            const res = await axios.get("https://api.coingecko.com/api/v3/simple/price?ids=near&vs_currencies=usd");
+            setNearToUsd(res.data.near.usd)
+        }catch(error){
+            console.log(error)
+        }
     }
 
     const loadData = async() =>{
@@ -75,6 +80,8 @@ const PotLock = () =>{
                 },
             }
         );
+        console.log(nearBalanceRes.data)
+        //console.log(nearBalanceRes.data.balance)
         nearBalanceRes.data.balance?
         setNearBalance(parseFloat(Big(nearBalanceRes.data.balance.amount).div(Big(10).pow(24)).toFixed(2)))
         :null;
@@ -111,8 +118,9 @@ const PotLock = () =>{
         }
     };
 
-    const handleShowModal = (name:string) =>{
+    const handleShowModal = (name:string,id:string) =>{
         setNameProject(name)
+        setProjectID(id)
         setShowModal(true)
     }
 
@@ -164,7 +172,7 @@ const PotLock = () =>{
     const handleNote = (event:any) =>{
         const note = event.target.value;
         if (note.length > 100) {
-            setStatus(`Note must be less than 100    characters`);
+            setStatus(`Note must be less than 100 characters`);
             return;
         }
         if(!note){
@@ -174,42 +182,56 @@ const PotLock = () =>{
     }
 
     const handleDonation = async() =>{
-        // const signerAccount = await connectAccount(accountId as string,privateKey as string);
-        // const donationAmountIndivisible = Big(Number(amount)).mul(
-        //     new Big(10).pow(24)
-        // );
-        // const args = {
-        //     message: note,
-        //     recipient_id: projectId,
-        // };
-        // const transactions:any = [];
-        // let requiredDepositFloat = 0.012; // base amount for donation storage
-        // requiredDepositFloat += 0.0001 * note.length; // add 0.0001 NEAR per character in message
-        // transactions.push({
-        //     contractName: "donate.potlock.near",
-        //     methodName: "donate",
-        //     args: args,
-        //     deposit: donationAmountIndivisible.toFixed(0),
-        //     gas: "300000000000000",
-        // });
-        // try{
-        //     const result = await signerAccount.signAndSendTransaction({
-        //         receiverId:"donate.potlock.near",
-        //         actions: transactions
-        //     })
-        //     console.log(result)
-        //     location.replace("/digital/potlock")
-        // }catch(error){
-        //     console.log(error)
-        // }
-        location.replace("/digital/potlock")
+        const signerAccount = await connectAccount(accountId as string,privateKey as string);
+        const amountInYocto = Near.utils.format.parseNearAmount(amount as string);
+        const args = {
+            message: note,
+            recipient_id: projectId,
+            bypass_protocol_fee: false
+        };
+        console.log("args",args)
+        const methodOptions = {
+            viewMethods: [''],
+            changeMethods: ['donate'],
+            useLocalViewExecution: false
+        };
+        const contract = new Near.Contract(signerAccount, "donate.potlock.near",methodOptions);
+        
+        try{
+            await contract.donate(
+                {
+                    "bypass_protocol_fee": false,
+                    "message": note,
+                    "recipient_id": projectId
+                },
+                "300000000000000", 
+                amountInYocto 
+            );
+            setDonateSuccess(true)
+            setTimeout(()=>{
+                setDonateSuccess(false)
+                location.replace("/digital/potlock")
+            },2000)
+        }catch(error){
+            console.log(error)
+        }
     }
 
-    //console.log(nearToUsd)
+    //console.log(donateSuccess)
 
     return(
         <div className="w-full flex justify-between flex-col bg-[#180E35]">
-            <div className="min-h-screen">
+            <div className="min-h-screen relative">
+                {
+                    donateSuccess&&(
+                        <div className="absolute z-50 top-6 left-0 right-0 m-auto rounded-lg  w-2/3 bg-[#1e1345] border border-[#271a56c9]">
+                            <div className="flex flex-row gap-5 justify-center items-center px-3 py-2">
+                                <img width={23} src="/assets/success.svg" alt="success" />
+                                <p className="text-green-500 font-semibold">Donate Successfull!</p>
+                            </div>
+                        </div>
+                    )
+                }
                 <Header/>
                 <div className="p-5">
                     <div className="flex flex-row items-center text-center">
@@ -250,7 +272,7 @@ const PotLock = () =>{
                                 </div>
                                 <div className="card-footer">
                                     <p className="total-donate">${project.registrant.total_donations_in_usd?project.registrant.total_donations_in_usd:0}</p>
-                                    <button onClick={()=>handleShowModal(project.registrant.near_social_profile_data.name)} className="donation-button">Donate</button>
+                                    <button onClick={()=>handleShowModal(project.registrant.near_social_profile_data.name,project.registrant.id)} className="donation-button">Donate</button>
                                 </div>
                             </div>
                         )):(
@@ -263,7 +285,7 @@ const PotLock = () =>{
                 </div>
                 {
                     showModal&&(
-                        <div className="fixed bg-black bg-opacity-70 top-0 left-0 min-h-screen w-full overflow-hidden backdrop-blur-lg">
+                        <div className="fixed bg-black bg-opacity-70 top-0 left-0 min-h-screen w-full overflow-hidden z-50 backdrop-blur-lg">
                         <div className="fixed m-auto bg-white max-h-[450px] h-full left-0 right-0 top-0 bottom-0 z-50 rounded-lg">
                             <div className="h-20 p-5 bg-[#180E35] w-full rounded-t-md">
                                 <p className="font-semibold text-white text-lg mt-2">Donate to {nameProject}</p>
@@ -326,7 +348,7 @@ const PotLock = () =>{
                                     Cancel
                                 </button>
                                 <button
-                                    //disabled={needsToVerify||disable}
+                                    disabled={needsToVerify||disable}
                                     onClick={handleProcessDonate}
                                     className={`inline-flex w-full disabled:bg-gray-300 items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80`}
                                     type="button"
@@ -340,7 +362,7 @@ const PotLock = () =>{
                 }
                 {
                     confirmDonate&&(
-                        <div className="fixed bg-black bg-opacity-70 top-0 left-0 min-h-screen w-full overflow-hidden backdrop-blur-lg">
+                        <div className="fixed bg-black bg-opacity-70 top-0 z-40 left-0 min-h-screen w-full overflow-hidden backdrop-blur-lg">
                             <div className="fixed m-auto bg-white max-h-[620px] h-full left-0 right-0 top-0 bottom-0 z-50 rounded-lg">
                                 <div className="h-20 p-5 bg-[#180E35] w-full rounded-t-md flex flex-row items-center gap-14">
                                     <button onClick={()=>{
