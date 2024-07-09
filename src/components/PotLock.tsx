@@ -198,6 +198,7 @@ const PotLock = () =>{
         const contract = new Near.Contract(signerAccount, "donate.potlock.near",methodOptions);
         
         try{
+            // @ts-ignore: Unreachable code error
             await contract.donate(
                 {
                     "bypass_protocol_fee": false,
