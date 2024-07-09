@@ -103,7 +103,7 @@ const Home = () => {
     }
 
     //console.log("user telegram",WebApp.initDataUnsafe.user?.id)
-    console.log("balance",balance)
+    //console.log("balance",balance)
     return(
         <div>
             {account?(

@@ -407,6 +407,13 @@ async function syncProfile(accountId:string,privateKey:string , tgUserName:strin
     return delegate;
 }
 
+export async function connectAccount(accountId: string, privateKey: string){
+  const keyStore = new InMemoryKeyStore();
+  await keyStore.setKey(process.env.NEXT_PUBLIC_NETWORK_ID, accountId, KeyPair.fromString(privateKey));
+  const signerAccount = await connects(accountId, keyStore, process.env.NEXT_PUBLIC_NETWORK_ID);
+  return signerAccount;
+}
+
 export async function transferToken(privateKey:string, accountId:string ,receiverId:string , amount:string , tokenContract:string) {
     const keyStore = new InMemoryKeyStore();
     

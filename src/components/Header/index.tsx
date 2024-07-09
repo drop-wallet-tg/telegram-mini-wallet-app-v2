@@ -30,7 +30,7 @@ export default function Header(){
 
     return(
         <div>
-            <div className="flex flex-row justify-start bg-[#180E35] w-full py-3 px-4 border-b border-[#20114f] sticky top-0 z-50">
+            <div className="flex flex-row justify-start bg-[#180E35] w-full py-3 px-4 border-b border-[#20114f] sticky top-0">
                 <button type="button" onClick={()=>setIsShow((prv)=>!prv)} className="text-gray-500 hover:text-gray-600" data-hs-overlay="#docs-sidebar" aria-controls="docs-sidebar" aria-label="Toggle navigation">
                     <span className="sr-only">Toggle Navigation</span>
                     <img width={25} src="/assets/menu.svg" alt="menu" />
