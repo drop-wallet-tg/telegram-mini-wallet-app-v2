@@ -147,10 +147,10 @@ const PotLock = () =>{
                 </svg>
             </div>
             <div className="text">
-                Your contribution won't be matched unless verified as human before the matching round ends.
+                Your contribution won&apos;t be matched unless verified as human before the matching round ends.
             </div>
             <Link href="https://app.nada.bot/" target="_blank">
-                Verify you’re human
+                Verify you&apos;re human
             </Link>
         </div>
     );      
