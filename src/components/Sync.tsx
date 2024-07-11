@@ -50,7 +50,7 @@ const SyncWallet = () =>{
             <div className="min-h-screen">
                 <div className="flex flex-col gap-3 justify-center items-center pt-16">
                     <img width={120} src="/images/logo/logo.svg" alt="logo" />
-                    <label className="text-2xl font-semibold text-white mt-2">Sync Wallet</label>
+                    <label className="text-2xl font-semibold text-white mt-2">Sync Wallet From V1</label>
                     <p className="text-normal w-2/3 text-center text-[#716D9C]">Choose how you&apos;d like to set up your wallet</p>
                 </div>
                 <div className="mt-5 px-20">
@@ -59,16 +59,16 @@ const SyncWallet = () =>{
                         <div className="-m-1.5 overflow-x-auto">
                             <div className="p-1.5 min-w-full inline-block align-middle">
                             <div className="overflow-hidden">
-                                <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
+                                <table className="min-w-full divide-y divide-gray-200">
                                 <thead>
                                     <tr>
-                                        <th scope="col" className="px-6 w-16 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500"></th>
-                                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase dark:text-neutral-500">Account</th>
+                                        <th scope="col" className="px-6 w-16 py-3 text-start text-xs font-medium text-gray-500 uppercase"></th>
+                                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Account</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
+                                <tbody className="divide-y divide-gray-200">
                                     <tr>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-neutral-200">
+                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
                                             <label className="checkBox">
                                                 <input id="ch1" type="checkbox" onChange={()=>{
                                                     setIsSelect((prv)=>!prv)
@@ -77,7 +77,7 @@ const SyncWallet = () =>{
                                                 <div className="transition"></div>
                                             </label>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-gray-800 dark:text-neutral-200">{listAccount[userID]&&listAccount[userID].accountId}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap text-white">{listAccount[userID]&&listAccount[userID].accountId}</td>
                                     </tr>
                                 </tbody>
                                 </table>
