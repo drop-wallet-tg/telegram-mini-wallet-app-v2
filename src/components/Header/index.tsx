@@ -14,11 +14,11 @@ export default function Header(){
     },[account])
 
     function strucate(str: string){
-        if(str.length > 10){
-            const format = str.replace(".near","");
-            return format.slice(0,3)+'...'+format.slice(-3);
+        const format = str.replace(".near","");
+        if(format.length > 10){
+            return format.slice(0,3)+'...'+format.slice(-3)+".near";
         }
-        return str;
+        return format+'.near';
     }
 
     function checkCopy(){

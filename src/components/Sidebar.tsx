@@ -2,17 +2,13 @@ import Account from "./Account";
 
 export default function Sidebar({account,isShow,setIsShow}:{account:string,isShow:boolean,setIsShow:any}){
     const DataAccount = JSON.parse(localStorage.getItem("accounts") as string)??[];
+    
     function strucate(str: string){
-        let account;
-        if(str){
-            if(str.length > 10){
-                const format = str.replace(".near","");
-                account = format.slice(0,3)+'...'+format.slice(-3);
-            }else{
-                account = str;
-            }
+        const format = str.replace(".near","");
+        if(format.length > 10){
+            return format.slice(0,3)+'...'+format.slice(-3)+".near";
         }
-        return account as string;
+        return format+'.near';
     }
 
     // const DataAccount = [
