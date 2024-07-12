@@ -301,7 +301,7 @@ export default function BluntDao(){
                         </div>
                     )}
                 <div className="mt-12 w-full">
-                    <button onClick={handlePostBluntDao} disabled={!refered}  className={`${refered?"bg-[#2775CA] hover:bg-[#5290D4]":"bg-black bg-opacity-30"} px-6 py-3 w-full rounded-3xl text-white font-bold`}>Mint</button>
+                    <button onClick={handlePostBluntDao} disabled={!refered}  className={`${refered?"bg-[#2775CA] hover:bg-[#5290D4]":"bg-black bg-opacity-30"} px-6 py-3 w-full rounded-3xl text-white font-bold`}>Post</button>
                 </div>
             </div>
             

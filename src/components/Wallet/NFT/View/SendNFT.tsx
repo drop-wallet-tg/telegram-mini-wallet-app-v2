@@ -27,7 +27,7 @@ export default function SendNFT({tokenId}:{tokenId:string}){
             contractOwnedList.forEach((item, index) => {
                 totalNft += data.nft[item].length;
                 for(let i=0;i<totalNft;i++){
-                    if(data.nft[item][i].token_id == tokenId){
+                    if(data.nft[item][i]&&data.nft[item][i].token_id == tokenId){
                         localStorage.setItem("nft",JSON.stringify(data.nft[item][i]))
                         setNFT(data.nft[item][i])
                     }

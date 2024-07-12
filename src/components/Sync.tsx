@@ -55,34 +55,19 @@ const SyncWallet = () =>{
                 </div>
                 <div className="mt-5 px-20">
                     {Object.values(listAccount).length > 0 && listAccount[userID]
-                    ? <div className="flex flex-col">
-                        <div className="-m-1.5 overflow-x-auto">
-                            <div className="p-1.5 min-w-full inline-block align-middle">
-                            <div className="overflow-hidden">
-                                <table className="min-w-full divide-y divide-gray-200">
-                                <thead>
-                                    <tr>
-                                        <th scope="col" className="px-6 w-16 py-3 text-start text-xs font-medium text-gray-500 uppercase"></th>
-                                        <th scope="col" className="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">Account</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-200">
-                                    <tr>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-white">
-                                            <label className="checkBox">
-                                                <input id="ch1" type="checkbox" onChange={()=>{
-                                                    setIsSelect((prv)=>!prv)
-                                                    setStatus("")
-                                                }}/>
-                                                <div className="transition"></div>
-                                            </label>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-white">{listAccount[userID]&&listAccount[userID].accountId}</td>
-                                    </tr>
-                                </tbody>
-                                </table>
-                            </div>
-                            </div>
+                    ? <div className="flex flex-col mt-5">
+                        <p className="ml-20 text-[#ffffff88]">Account</p>
+                        <div className="flex flex-row gap-2 items-center">
+                            <td className="ml-4 px-4 py-4 whitespace-nowrap text-sm font-medium text-white">
+                                <label className="checkBox">
+                                    <input id="ch1" type="checkbox" onChange={()=>{
+                                        setIsSelect((prv)=>!prv)
+                                        setStatus("")
+                                    }}/>
+                                    <div className="transition"></div>
+                                </label>
+                            </td>
+                            <td className="whitespace-nowrap text-white font-semibold">{listAccount[userID]&&listAccount[userID].accountId}</td>
                         </div>
                     </div>
                     :(

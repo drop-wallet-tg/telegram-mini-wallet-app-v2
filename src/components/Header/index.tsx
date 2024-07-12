@@ -52,11 +52,6 @@ export default function Header(){
                             </button>
                         </div>
                     </CopyToClipboard>
-                    {/* <button onClick={()=>Copy(account)} className="flex flex-row hover:bg-[#492ba24e] px-2 py-1 rounded-full justify-between gap-1.5 items-center">
-                        <span>
-                            <svg width={15} viewBox="0 0 24 24" fill="#ffffff" focusable="false" aria-hidden="true"><path fill="#ffffff" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>
-                        </span>
-                    </button> */}
                 </div>
             </div>
             <div className="bg-black bg-opacity-50 z-40 w-full">
