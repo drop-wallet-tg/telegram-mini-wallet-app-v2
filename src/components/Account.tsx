@@ -11,7 +11,7 @@ export default function Account({data}:{data:any}){
     function strucate(str: string){
         let account;
         if(str){
-            if(str.length > 30){
+            if(str.length > 10){
                 const format = str.replace(".near","");
                 account = format.slice(0,3)+'...'+format.slice(-3);
             }else{
