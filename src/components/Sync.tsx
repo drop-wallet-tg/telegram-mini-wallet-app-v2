@@ -53,12 +53,12 @@ const SyncWallet = () =>{
                     <label className="text-2xl font-semibold text-white mt-2">Sync Wallet From V1</label>
                     <p className="text-normal w-2/3 text-center text-[#716D9C]">Choose how you&apos;d like to set up your wallet</p>
                 </div>
-                <div className="mt-5 px-20">
+                <div className="mt-5 px-8">
                     {Object.values(listAccount).length > 0 && listAccount[userID]
                     ? <div className="flex flex-col mt-5">
                         <p className="ml-20 text-[#ffffff88]">Account</p>
                         <div className="flex flex-row gap-2 items-center">
-                            <td className="ml-4 px-4 py-4 whitespace-nowrap text-sm font-medium text-white">
+                            <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-white">
                                 <label className="checkBox">
                                     <input id="ch1" type="checkbox" onChange={()=>{
                                         setIsSelect((prv)=>!prv)
