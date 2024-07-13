@@ -3,7 +3,7 @@ import { useState,useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import Image from "next/image";
+
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
@@ -26,7 +26,7 @@ export default function ExportPrivateKey(){
             <Header/>
             <div className="p-5">
                 <div className="flex flex-row items-center text-center">
-                    <Link href="/wallet/setting">
+                    <Link href="/wallet/setting/security">
                         <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" alt="arrow" />
                     </Link>
                     <label className="text-lg text-white font-bold m-auto">Export Private Key</label>

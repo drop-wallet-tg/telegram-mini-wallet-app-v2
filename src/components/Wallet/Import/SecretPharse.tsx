@@ -9,6 +9,7 @@ import { getAccount } from "@/hooks/SDK";
 export default function SecretPharse(){
     const [privateKey,setPrivateKey] = useState<string>('');
     const [publicKey, setPublicKey] = useState<string>('');
+    const [secret,setSecret] = useState<string>('');
     const [status,setStatus] = useState<string>('');
     const [loading,setLoading] = useState<boolean>(false);
     const oldAccounts = JSON.parse(localStorage.getItem("accounts") as string)??[];
@@ -17,6 +18,7 @@ export default function SecretPharse(){
         const seedPhrase = event.target.value;
         if(seedPhrase){
             const { publicKey, secretKey } = parseSeedPhrase(seedPhrase);
+            setSecret(seedPhrase)
             setPrivateKey(secretKey)
             setPublicKey(publicKey);
         }else{
@@ -54,6 +56,7 @@ export default function SecretPharse(){
             localStorage.setItem('accounts',JSON.stringify(oldAccounts))
             WebApp.CloudStorage.setItem("privateKey",privateKey);
             WebApp.CloudStorage.setItem("account",account[0]);
+            WebApp.CloudStorage.setItem("seed",secret);
             setLoading(false)
             location.replace("/")
         }else{
