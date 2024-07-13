@@ -53,7 +53,7 @@ export default function SendNFT({tokenId}:{tokenId:string}){
                 <div className="p-5 h-[85vh]">
                     <div className="flex flex-row items-center text-center">
                         <Link href={`/wallet/nfts/collection/${contractName}`}>
-                            <img src="/images/icon/Arrow.svg" alt="arrow" />
+                            <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" alt="arrow" />
                         </Link>
                         <label className="text-xl shadow-lg text-white font-bold m-auto ">{nft.title}</label>
                     </div>

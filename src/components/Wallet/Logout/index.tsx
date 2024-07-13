@@ -42,7 +42,7 @@ export default function LogOut(){
             <Header/>
             <div className="p-5">
                 <Link href={"/wallet/setting"} className="flex flex-row items-center text-center">
-                    <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" width={30} alt="arrow" />
+                    <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" alt="arrow" />
                     <label className="text-lg text-white font-semibold m-auto">Log Out</label>
                 </Link>
                 <div className="pt-10">

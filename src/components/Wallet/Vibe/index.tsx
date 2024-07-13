@@ -131,7 +131,7 @@ export default function Vibe(){
                 <div className="p-5 pb-12">
                 <div className="flex flex-row items-center text-center">
                     <Link href="/">
-                        <img src="/images/icon/Arrow.svg" alt="arrow" />
+                        <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" alt="arrow" />
                     </Link>
                     <label className="text-lg text-white font-bold m-auto">Vibe</label>
                 </div>

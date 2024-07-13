@@ -29,7 +29,7 @@ export default function ConnectedApps(){
             <Header/>
             <div className="mt-1 p-5">
                 <Link href={"/wallet/setting"} className="flex flex-row items-center text-center">
-                    <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" width={30} alt="arrow" />
+                    <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" alt="arrow" />
                     <label className="text-lg text-white font-semibold m-auto">Connected Apps</label>
                 </Link>
                     {txns.length > 0 && txns.map((data:any,index:number)=>{
