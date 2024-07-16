@@ -108,13 +108,17 @@ const PotLock = () =>{
     const handleAmoutChange = (event:any) => {
         let amount = event.target.value.replace(/[^\d.]/g, ""); // remove all non-numeric characters except for decimal
         if (amount === ".") amount = "0.";
-        setAmount(amount);
+        
         // error if amount is greater than balance
         if (Number(amount) > Number(nearBalance) && nearBalance !== null) {
             setStatus("You don’t have enough balance to complete this transaction.");
             setDisable(true)
         } else if (parseFloat(amount) < 0.1) {
             setStatus("Minimum donation is 0.1 NEAR.");
+        }else{
+            setStatus("");
+            setAmount(amount);
+            setDisable(false)
         }
     };
 
@@ -164,9 +168,14 @@ const PotLock = () =>{
     );      
 
     const handleProcessDonate = () =>{
-        setShowModal(false);
-        setConfirmDonate(true);
-        setStatus("");
+        if(amount){
+            setShowModal(false);
+            setConfirmDonate(true);
+            setStatus("");
+        }else{
+            setStatus(`Please enter amount!`);
+            setDisable(true)
+        }
     }
 
     const handleNote = (event:any) =>{
@@ -287,7 +296,7 @@ const PotLock = () =>{
                 {
                     showModal&&(
                         <div className="fixed bg-black bg-opacity-70 top-0 left-0 min-h-screen w-full overflow-hidden z-50 backdrop-blur-lg">
-                        <div className="fixed m-auto bg-white max-h-[450px] h-full left-0 right-0 top-0 bottom-0 z-50 rounded-lg">
+                        <div className="fixed m-auto bg-white max-h-[380px] h-full left-0 right-0 top-0 bottom-0 z-50 rounded-lg">
                             <div className="h-20 p-5 bg-[#180E35] w-full rounded-t-md">
                                 <p className="font-semibold text-white text-lg mt-2">Donate to {nameProject}</p>
                             </div>
@@ -335,12 +344,12 @@ const PotLock = () =>{
                                     <Alert error={status as string}/>
                                 </div>
                             )}
-                            {needsToVerify&&
+                            {/* {needsToVerify&&
                                 <div className="px-5">
                                     <VerifyInfo/>
                                 </div>
-                            }
-                            <div className="absolute bottom-4 right-0 flex flex-row gap-5 w-3/4 justify-end float-end px-5">
+                            } */}
+                            <div className="absolute bottom-4 right-0 flex flex-row gap-5 md:w-2/3 justify-end float-end px-5">
                                 <button
                                 onClick={()=>setShowModal(false)}
                                     className="relative inline-flex w-[150px] items-center justify-center rounded-md border border-red-400 bg-white px-3.5 py-2.5 font-semibold text-red-700 transition-all duration-200 hover:bg-red-100 hover:text-red-500 focus:bg-gray-100 focus:text-red-500 focus:outline-none"
@@ -349,7 +358,7 @@ const PotLock = () =>{
                                     Cancel
                                 </button>
                                 <button
-                                    disabled={needsToVerify||disable}
+                                    disabled={disable}
                                     onClick={handleProcessDonate}
                                     className={`inline-flex w-full disabled:bg-gray-300 items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80`}
                                     type="button"
