@@ -65,19 +65,19 @@ export default function Browser(){
                             </Link>
                         </div>
                     </div>
-                    {/* <div className="mt-8">
-                        <h5 className="text-white font-semibold text-xl">DeFi</h5>
+                    <div className="mt-8">
+                        <h5 className="text-white font-semibold text-xl">GameFi</h5>
                         <div className="mt-3">
-                            <Link target="_blank" href="https://app.ref.finance/" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
-                                <Image height={20} width={30} src="/assets/ref.png" className="py-6" alt="ref-finance" />
+                            <Link href="/game/joygotchi" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
+                                <Image height={20} width={30} src="/assets/joygotchi.svg" className="py-6" alt="ref-finance" />
                                 <div className="flex flex-col text-white">
-                                    <span className="font-semibold">Ref Finance</span>
-                                    <small className="text-[#ffffff9e]">Ref Finance is a community-led, multi-purpose DeFi platform built on the NEAR Protocol.</small>
+                                    <span className="font-semibold">Joy GotChi</span>
+                                    <small className="text-[#ffffff9e]">Engage in a variety of fun mini-games to keep your Joy Gotchi entertained and active.</small>
                                 </div>
                                 <Image width={15} height={15} src="/assets/arrow-right.svg" alt="arrow"/>
                             </Link>
                         </div>
-                    </div> */}
+                    </div>
                 </div>
             </div>
             <Footer/>
