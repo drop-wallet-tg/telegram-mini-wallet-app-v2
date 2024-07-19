@@ -65,7 +65,7 @@ export default function Browser(){
                             </Link>
                         </div>
                     </div>
-                    <div className="mt-8">
+                    {/* <div className="mt-8">
                         <h5 className="text-white font-semibold text-xl">GameFi</h5>
                         <div className="mt-3">
                             <Link href="/game/joygotchi" className="flex flex-row gap-5 px-3 w-full py-2 items-center bg-black bg-opacity-35 rounded-lg hover:bg-opacity-50">
@@ -77,7 +77,7 @@ export default function Browser(){
                                 <Image width={15} height={15} src="/assets/arrow-right.svg" alt="arrow"/>
                             </Link>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <Footer/>

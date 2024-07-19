@@ -12,7 +12,7 @@ import { type FC, useEffect, useMemo,useState } from 'react';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useRouter as useNavigationRouter } from 'next/navigation';
-import { AnimatePresence } from 'framer-motion';
+
 
 import "./globals.css";
 import 'react-toastify/dist/ReactToastify.css';

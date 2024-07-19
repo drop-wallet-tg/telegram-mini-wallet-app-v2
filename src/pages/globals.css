@@ -453,3 +453,9 @@
     }
 }
 
+.sm{
+    @media screen and (max-width: 380px) {
+        margin-left: 0.75rem;
+        margin-right: 0.75rem;
+    }
+}
