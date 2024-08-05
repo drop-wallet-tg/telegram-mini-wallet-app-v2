@@ -20,7 +20,7 @@ const Home = () => {
     const [nfts, setNFTs] = useState<any>([]);
     const [totalNft,setTotalNFT] = useState<number>(0);
     const [pending,setPending] = useState<boolean>(false);
-
+    const [change24H, setChange24H] = useState<string|null>(null)
     
     useEffect(()=>{
         localStorage.setItem("linkIndex",'0')
@@ -32,6 +32,9 @@ const Home = () => {
         }
     },[account])
     
+    useEffect(()=>{
+        loadChangeNear24h()
+    },[])
 
     const load = async()=>{
         const nearBalance =  await getAmount(account as string)
@@ -61,6 +64,14 @@ const Home = () => {
         setToken(tokenBalance)
     }
 
+    const loadChangeNear24h = async() =>{
+        const result = (await axios.get("https://api.nearblocks.io/v1/stats")).data;
+        const stats = result.stats;
+        const change24h = stats[0].change_24;
+        setChange24H(Number(change24h).toFixed(2))
+        //console.log("change24h",Number(change24h).toFixed(2))
+    }
+
     const loadNFT = async() =>{
         setPending(true)
         const {data} = await getNFT(account as string);
@@ -71,7 +82,7 @@ const Home = () => {
             const contractOwnedList = Object.keys(data.nft);
             contractOwnedList.forEach((item, index) => {
                 totalNft += data.nft[item].length;
-                //console.log("nft",data.nft[item].at(-1))
+                console.log("nft",data.nft[item].at(-1))
                 listNFT.push(<Link key={index} href={`/wallet/nfts/collection/${data.nft[item][index].nft_contract_id}`} className="flex flex-col items-start relative">
                     {data.nft[item].at(-1).media?(
                         <img className="rounded-xl" width={110} src={data.nft[item].at(-1).media} alt="NFT"/>
@@ -206,14 +217,20 @@ const Home = () => {
                                                 
                                             </div>
                                         </div>
-                                        <div className="flex flex-col justify-between">
+                                        <div className="flex flex-col justify-between text-end">
                                             {dt.balanceInUsd
                                             ? <p className="text-white">${dt.balanceInUsd}</p>
                                             : <p className="h-4 animate-pulse mb-2 w-20 bg-[#271a56] rounded-lg"></p>
                                             }
                                             <div className="flex flex-row gap-1.5">
-                                                <img src="/images/icon/icon_up.svg" alt="icon"/>
-                                                <small className="text-[#26a269]">8.7%</small>
+                                                {
+                                                    change24H&&(
+                                                        Number(change24H) > 0
+                                                        ? <img src="/images/icon/icon_up.svg" alt="icon"/>
+                                                        : <img className="rotate-180" src="/images/icon/icon_down.svg" alt="icon"/>
+                                                    )
+                                                }
+                                                <small className={`${change24H&&(Number(change24H)>0?"text-[#26a269]":"text-[#ff4545]")}`}>{change24H&&change24H}%</small>
                                             </div>
                                         </div>
                                     </div>

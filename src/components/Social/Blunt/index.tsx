@@ -62,7 +62,8 @@ export default function BluntDao(){
     }
 
     const handleVaildNearAccount = async(event:any)=>{
-        const refered = event.target.value;
+        const refered = event.target.value.toLowerCase();
+        setRefered(refered)
         var format = /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/g;
 		if (!format.test(refered.toLowerCase())) {
 			setMsgRefered(`<span style='color:red'>Error not a valid Near address.</span>`);
@@ -285,7 +286,7 @@ export default function BluntDao(){
                 </div>
                 <div className="mt-4">
                     <label htmlFor="refered" className="text-white">Refered</label>
-                    <input onChange={handleVaildNearAccount} type="text" name="refered" className={`w-full text-white ${msgRefered?"border border-red-600":"border-none"} bg-[#331e72] mt-2 mb-2 px-4 py-3 rounded-lg focus:outline-none placeholder-[#545ba9]`} placeholder="Who referred you put their .near"/>
+                    <input value={refered} onChange={handleVaildNearAccount} type="text" name="refered" className={`w-full text-white ${msgRefered?"border border-red-600":"border-none"} bg-[#331e72] mt-2 mb-2 px-4 py-3 rounded-lg focus:outline-none placeholder-[#545ba9]`} placeholder="Who referred you put their .near"/>
                     {msgRefered&&(
                         <div dangerouslySetInnerHTML={{__html:msgRefered}}/>
                     )}

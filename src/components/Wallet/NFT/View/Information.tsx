@@ -33,7 +33,7 @@ export default function Information({params}:{params:string}){
                     //console.log("item",data.nft[item][1])
                     for(let i = 0;i<data.nft[item].length;i++){
                         console.log("nft",data.nft[item][i])
-                        listNFT.push(<Link href={`/wallet/nfts/collection/${data.nft[item][i].nft_contract_id}/token/${data.nft[item][i].token_id}`} className="flex flex-col items-start relative">
+                        listNFT.push(<Link key={i} href={`/wallet/nfts/collection/${data.nft[item][i].nft_contract_id}/token/${data.nft[item][i].token_id}`} className="flex flex-col items-start relative">
                             {data.nft[item][i].media?(
                                 <img className="rounded-xl" width={110} src={data.nft[item][i].media} alt="NFT"/>
                             ):(

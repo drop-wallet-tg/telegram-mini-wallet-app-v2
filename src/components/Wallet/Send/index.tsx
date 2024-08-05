@@ -26,6 +26,7 @@ export default function Send(){
     const [status,setStatus] = useState<string>("");
     const [loading,setLoading] = useState<boolean>(false);
 
+
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
         WebApp.CloudStorage.getItem("privateKey",(err,rs)=>setPrivateKey(rs as string))
@@ -66,7 +67,8 @@ export default function Send(){
         }
     }
     const handleVaildNearAccount = (event:any)=>{
-        const nearAccount = event.target.value;
+        const nearAccount = event.target.value.toLowerCase();
+        setAddressSend(nearAccount);
         var format = /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/g;
 		if (!format.test(nearAccount.toLowerCase())) {
 			setMsgAccount(`<b style='color:red;font-size:14px;'>Error not a valid Near address.</b>`);
@@ -252,7 +254,7 @@ export default function Send(){
                     </div>
                     <div className="mt-5">
                         <label className="text-white">Send To</label>
-                        <input onChange={handleVaildNearAccount} type="text" className="w-full text-white bg-[#331e72] mt-2 mb-2 px-4 py-3 rounded-full focus:outline-none placeholder-[#545ba9]" placeholder="Send to account ID"/>
+                        <input value={addressSend} onChange={handleVaildNearAccount} type="text" className="w-full text-white bg-[#331e72] mt-2 mb-2 px-4 py-3 rounded-full focus:outline-none placeholder-[#545ba9]" placeholder="Send to account ID"/>
                         <small className="text-white text-[0.7rem]">The account ID must be valid such as.near or contain exactly 64 characters.</small>
                         {msgAccount&&<div dangerouslySetInnerHTML={{__html:msgAccount}}/>}
                     </div>

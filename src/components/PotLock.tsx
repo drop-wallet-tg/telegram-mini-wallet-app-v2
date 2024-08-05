@@ -12,7 +12,7 @@ import * as Near from "near-api-js"
 const PotLock = () =>{
     const [accountId,setAccountId] = useState<string|null>(null);
     const [privateKey,setPrivateKey] = useState<string|null>(null); 
-    const [projects,setProjects] = useState<any>([]||JSON.parse(localStorage.getItem("potlock") as string));
+    const [projects,setProjects] = useState<any>(JSON.parse(localStorage.getItem("potlock") as string)||[]);
     const [isShow, setIsShow] = useState<boolean>(false);
     const [select,setSelect] = useState<any>(["NEAR","/assets/near-white.svg","near"]);
     const [showModal,setShowModal] = useState<boolean>(false);
@@ -260,12 +260,12 @@ const PotLock = () =>{
                                     : <img className="card-img" src={project.registrant.near_social_profile_data.backgroundImage&&project.registrant.near_social_profile_data.backgroundImage.nft.media} alt="background" />
                                 }
                                 <div className="card-body">
-                                    {!project.registrant.near_social_profile_data.image.nft
+                                    {project.registrant.near_social_profile_data.image&&(!project.registrant.near_social_profile_data.image.nft
                                         ? project.registrant.near_social_profile_data.image.url
                                         ? <img className="card-avatar" src={project.registrant.near_social_profile_data.image.url} alt="avatar" />
                                         : <img className="card-avatar" src={`https://ipfs.near.social/ipfs/${project.registrant.near_social_profile_data.image.ipfs_cid}`} alt="avatar" />
                                         : <img className="card-avatar" src={project.registrant.near_social_profile_data.image.nft.media} alt="avatar" />
-                                    }
+                                    )}
                                     <p className="card-title">{project.registrant.near_social_profile_data.name}</p>
                                     <p className="card-description">{truncate(project.registrant.near_social_profile_data.description)}</p>
                                     <div className="card-tag-container">

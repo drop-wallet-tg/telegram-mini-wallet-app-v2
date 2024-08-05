@@ -109,7 +109,8 @@ export default function Mint(){
     }
 
     const handleVaildNearAccount = (event:any)=>{
-        const nearAccount = event.target.value;
+        const nearAccount = event.target.value.toLowerCase();
+        setNearAccount(nearAccount)
         var format = /^(([a-z\d]+[\-_])*[a-z\d]+\.)*([a-z\d]+[\-_])*[a-z\d]+$/g;
 		if (!format.test(nearAccount.toLowerCase())) {
 			setMsgAccount(`<span style='color:red'>Error not a valid Near address.</span>`);
@@ -316,7 +317,7 @@ export default function Mint(){
                 </div>
                 <div className="">
                     <label htmlFor="account" className="text-gray-300">Valid Near Account</label>
-                    <input onChange={handleVaildNearAccount} type="text" name="account" className={`w-full text-white ${msgAccount?"border border-red-600":"border border-white border-opacity-20"} shadow-sm bg-black bg-opacity-25 mt-2 mb-2 px-4 py-3 rounded-lg focus:outline-none placeholder-[#ffffff3c]`} placeholder="Enter valid Near Account"/>
+                    <input value={nearAccount} onChange={handleVaildNearAccount} type="text" name="account" className={`w-full text-white ${msgAccount?"border border-red-600":"border border-white border-opacity-20"} shadow-sm bg-black bg-opacity-25 mt-2 mb-2 px-4 py-3 rounded-lg focus:outline-none placeholder-[#ffffff3c]`} placeholder="Enter valid Near Account"/>
                     {msgAccount&&(
                         <div dangerouslySetInnerHTML={{__html:msgAccount}}/>
                     )}
