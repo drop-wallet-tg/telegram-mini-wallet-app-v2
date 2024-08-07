@@ -246,7 +246,7 @@ const PotLock = () =>{
                 <Header/>
                 <div className="p-5">
                     <div className="flex flex-row items-center text-center">
-                        <Link href="/home">
+                        <Link href="/wallet/browser">
                             <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" alt="arrow" />
                         </Link>
                         <label className="text-lg text-white font-bold m-auto">PotLock</label>
