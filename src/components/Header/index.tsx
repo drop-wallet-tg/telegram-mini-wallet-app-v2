@@ -30,12 +30,12 @@ export default function Header(){
 
     return(
         <div className="sticky top-0 w-full h-full z-20">
-            <div className="flex flex-row justify-start bg-[#180E35] overflow-hidden w-full py-3 px-4 border-b border-[#20114f] sticky top-0 z-10">
+            <div className="flex flex-row justify-start bg-[#180E35] overflow-hidden w-full py-3 px-4 border-b border-[#20114f] sticky top-0 z-10 h-full">
                 <button type="button" onClick={()=>setIsShow((prv)=>!prv)} className="text-gray-500 hover:text-gray-600" data-hs-overlay="#docs-sidebar" aria-controls="docs-sidebar" aria-label="Toggle navigation">
                     <span className="sr-only">Toggle Navigation</span>
                     <img width={25} src="/assets/menu.svg" alt="menu" />
                 </button>
-                <div className="flex flex-row gap-1 items-center m-auto">
+                <div className="flex flex-row gap-1 items-center m-auto relative">
                     {account
                     ? <h1 className="text-xl ml-5 text-center font-semibold text-white">{strucate(account)}</h1>
                     : <div className="animate-pulse">
@@ -50,8 +50,12 @@ export default function Header(){
                                     <svg width={15} viewBox="0 0 24 24" fill="#ffffff" focusable="false" aria-hidden="true"><path fill="#ffffff" d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"></path></svg>
                                 </span>
                             </button>
+                            {/* <div className="bg-white h-5 w-10 px-1 text-center fixed rounded-full">
+                                <small>Copied</small>
+                            </div> */}
                         </div>
                     </CopyToClipboard>
+                    
                 </div>
             </div>
             <div className="bg-black bg-opacity-50 z-40 w-full">

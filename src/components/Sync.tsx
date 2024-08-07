@@ -2,13 +2,14 @@ import { useState,useEffect } from "react";
 import axios from "axios";
 import WebApp from "@twa-dev/sdk";
 import Link from "next/link";
-
+import { useRouter } from "next/router";
 
 const SyncWallet = () =>{
     const [listAccount,setListAccount] = useState<any>([]);
     const [isSelect,setIsSelect] = useState<boolean>(false);
     const [status,setStatus] = useState<string|null>(null);
     const [userID,setUserId] = useState<string>('')
+    const router = useRouter();
 
     useEffect(()=>{
         setUserId(WebApp.initDataUnsafe.user?.id.toString() as string)
@@ -36,7 +37,7 @@ const SyncWallet = () =>{
             localStorage.setItem('accounts',JSON.stringify(Accounts))
             WebApp.CloudStorage.setItem("privateKey",listAccount[userID].privateKey);
             WebApp.CloudStorage.setItem("account",listAccount[userID].accountId);
-            location.replace("/");
+            router.push("/home")
         }else{
             setStatus("<b>Please choose account!</b>")
         }

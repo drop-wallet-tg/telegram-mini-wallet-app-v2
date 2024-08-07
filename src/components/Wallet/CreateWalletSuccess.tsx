@@ -21,7 +21,7 @@ export default function CreateWalletSucess(){
                         </div>
                     </div>
                     <div className="mt-20 w-full flex flex-col justify-center items-center">
-                        <Link href="/" className="px-6 py-3 text-center bg-[#2775CA] w-3/4 rounded-3xl text-white hover:bg-[#4f95e1] font-semibold">HOME</Link>
+                        <Link href="/home" className="px-6 py-3 text-center bg-[#2775CA] w-3/4 rounded-3xl text-white hover:bg-[#4f95e1] font-semibold">HOME</Link>
                     </div>
                 </div>
             </div>

@@ -41,15 +41,24 @@
 
 .copy-text:before{
     content: "Copied";
-    position: absolute;
-    bottom: -40px;
-    right: -15px;
+    position: fixed;
+    /* bottom: -40px;
+    right: -15px; */
+    top: 51px;
+    right: 30%;
     background: #b5afff;
     padding: 0.2rem 0.6rem;
     border-radius: 25px;
     font-size: 0.8rem;
     font-weight: bold;
     color: white;
+}
+
+@media screen and (max-width:468px) {
+    .copy-text:before{
+        top: 51px;
+        right: 23%;
+    }
 }
 
 .copy-text:after{
@@ -61,6 +70,7 @@
     height: 10px;
     background: #b5afff;
     transform: rotate(45deg);
+    z-index: 50;
 }
 .copy:before{
     content: "Copied";

@@ -2,12 +2,12 @@
 import { useState } from "react";
 import Link from "next/link"
 import Image from "next/image"
-
+import { useRouter } from "next/router";
 
 export default function ImportAccount(){
     const [selectIndex,setSelectIndex] = useState<number>(0);
     const [link,setLink] = useState<string>('/wallet/import-wallet/secret');
-
+    const router = useRouter();
 
     const choose = [
         {
@@ -25,7 +25,7 @@ export default function ImportAccount(){
     ]
     
     const handleContinue = () =>{
-        location.replace(link)
+        router.push(link)
     }
 
     return(

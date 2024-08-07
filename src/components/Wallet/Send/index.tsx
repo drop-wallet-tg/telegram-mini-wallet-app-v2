@@ -6,7 +6,7 @@ import axios from "axios";
 import Big from "big.js";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import Image from "next/image";
+import { useRouter } from "next/router";
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
@@ -25,6 +25,7 @@ export default function Send(){
     const [msgAccount,setMsgAccount] = useState<string>("");
     const [status,setStatus] = useState<string>("");
     const [loading,setLoading] = useState<boolean>(false);
+    const router = useRouter()
 
 
     useEffect(()=>{
@@ -133,7 +134,7 @@ export default function Send(){
                                         const data = await submitTransaction(signedDelegate);
                                         console.log("data",data)
                                         if(data.final_execution_status == "FINAL"){
-                                            location.replace(`/wallet/send/success?hash=${data.transaction.hash}`);
+                                            router.push(`/wallet/send/success?hash=${data.transaction.hash}`);
                                         }else{
                                             setLoading(false)
                                             setStatus("<b>Error cannt transfer. try again</b>")
@@ -148,7 +149,7 @@ export default function Send(){
                                             );
                                         console.log("tx",tx)
                                         if(tx.final_execution_status == "FINAL" ||tx.final_execution_status=="EXECUTED_OPTIMISTIC"){
-                                            location.replace(`/wallet/send/success?hash=${tx.transaction.hash}`);
+                                            router.push(`/wallet/send/success?hash=${tx.transaction.hash}`);
                                         }else{
                                             setLoading(false)
                                             setStatus("<b>Error cannt transfer. try again</b>")
@@ -187,7 +188,7 @@ export default function Send(){
                 )}
                 <form onSubmit={handleTransferToken} className="p-5">
                     <div className="flex flex-row items-center text-center">
-                        <Link href="/">
+                        <Link href="/home">
                             <img src="/images/icon/Arrow.svg" alt="arrow" />
                         </Link>
                         <label className="text-lg text-white font-bold m-auto">Send</label>

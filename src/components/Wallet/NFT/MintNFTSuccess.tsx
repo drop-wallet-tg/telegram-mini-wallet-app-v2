@@ -4,13 +4,14 @@ import WebApp from "@twa-dev/sdk";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-
+import { useRouter } from "next/router";
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
 
 export default function MintSuccess(){
     const [account,setAccount] = useState<string>('');
     const params = useSearchParams();
+    const router = useRouter()
 
     const tokenId = params.get("tokenId")
     ? params.get("tokenId")
@@ -37,7 +38,7 @@ export default function MintSuccess(){
                     </Link>
                 </div>
                 <div className="mt-12 w-full">
-                    <button onClick={()=>location.replace("/")} className="px-6 py-3 bg-[#2775CA] hover:bg-[#5290D4] w-full rounded-3xl text-white font-bold">Home</button>
+                    <button onClick={()=>router.push("/home")} className="px-6 py-3 bg-[#2775CA] hover:bg-[#5290D4] w-full rounded-3xl text-white font-bold">Home</button>
                 </div>
             </div>
         </div>

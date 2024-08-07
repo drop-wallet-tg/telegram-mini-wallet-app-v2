@@ -3,7 +3,7 @@ import { useState } from "react"
 import WebApp from "@twa-dev/sdk";
 import * as Near from "near-api-js";
 import { getAccount } from "@/hooks/SDK";
-
+import { useRouter } from "next/router";
 
 
 export default function ImportWallet(){
@@ -12,7 +12,7 @@ export default function ImportWallet(){
     const [status,setStatus] = useState<string>('');
     const [loading,setLoading] = useState<boolean>(false);
     const oldAccounts = JSON.parse(localStorage.getItem("accounts") as string)??[];
-
+    const router = useRouter();
 
     const handlePrivateKey = async(event:any)=>{
         const privateKey = event.target.value;
@@ -56,7 +56,7 @@ export default function ImportWallet(){
             WebApp.CloudStorage.setItem("privateKey",privateKey);
             WebApp.CloudStorage.setItem("account",account[0]);
             setLoading(false)
-            location.replace("/")
+            router.push("/home")
         }else{
             setLoading(false)
             setStatus("<b>Invalid key. Please check your input and try again!</b>");

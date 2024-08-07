@@ -6,10 +6,11 @@ import axios from "axios";
 import Big from "big.js";
 import { viewMethod,connectAccount, getAmount } from "@/hooks/SDK";
 import * as Near from "near-api-js"
-
+import { useRouter } from "next/router";
 
 
 const PotLock = () =>{
+    const router = useRouter()
     const [accountId,setAccountId] = useState<string|null>(null);
     const [privateKey,setPrivateKey] = useState<string|null>(null); 
     const [projects,setProjects] = useState<any>(JSON.parse(localStorage.getItem("potlock") as string)||[]);
@@ -220,7 +221,7 @@ const PotLock = () =>{
             setDonateSuccess(true)
             setTimeout(()=>{
                 setDonateSuccess(false)
-                location.replace("/digital/potlock")
+                router.push("/digital/potlock")
             },2000)
         }catch(error){
             console.log(error)
@@ -245,7 +246,7 @@ const PotLock = () =>{
                 <Header/>
                 <div className="p-5">
                     <div className="flex flex-row items-center text-center">
-                        <Link href="/">
+                        <Link href="/home">
                             <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" alt="arrow" />
                         </Link>
                         <label className="text-lg text-white font-bold m-auto">PotLock</label>

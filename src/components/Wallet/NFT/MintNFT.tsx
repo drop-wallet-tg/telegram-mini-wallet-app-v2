@@ -4,7 +4,7 @@ import WebApp from "@twa-dev/sdk";
 import { mintNFT, submitTransaction,MintBase } from "@/hooks/SDK";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-
+import { useRouter } from "next/router";
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
@@ -24,6 +24,8 @@ export default function Mint(){
     const [loadingIPFS,setLoadingIPFS] = useState<boolean>(false);
     const [isShow, setIsShow] = useState<boolean>(false);
     const [select,setSelect] = useState<any>(["GENADROP","/assets/genadrop.svg","nft.genadrop.near"]);
+    const router = useRouter()
+
 
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string));
@@ -151,7 +153,7 @@ export default function Mint(){
                     if (
                         data.final_execution_status == "FINAL"
                     ) {
-                        location.replace(`/wallet/nfts/mint/success?tokenId=${tokenId}&title=${title}`);
+                        router.push(`/wallet/nfts/mint/success?tokenId=${tokenId}&title=${title}`);
                     }
                 }catch(error){
                     console.log(error)
@@ -172,7 +174,7 @@ export default function Mint(){
                     if (
                         data.final_execution_status == "FINAL"
                     ) {
-                        location.replace(`/wallet/nfts/mint/success?tokenId=${tokenId}&title=${title}`);
+                        router.push(`/wallet/nfts/mint/success?tokenId=${tokenId}&title=${title}`);
                     }
                 }catch(error){
                     console.log(error)
@@ -199,7 +201,7 @@ export default function Mint(){
             }
         }
     }
-    console.log("select",select[0])
+    //console.log("select",select[0])
     return(
         <div className="w-full min-h-screen bg-[#180E35]">
             <Header/>
@@ -210,7 +212,7 @@ export default function Mint(){
             )}
             <div className="p-5 pb-12">
                 <div className="flex flex-row items-center text-center">
-                    <Link href="/">
+                    <Link href="/home">
                         <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" alt="arrow" />
                     </Link>
                     <label className="text-lg text-white font-bold m-auto">Mint NFT</label>

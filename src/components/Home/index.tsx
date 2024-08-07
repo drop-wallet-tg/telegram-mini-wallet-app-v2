@@ -8,6 +8,7 @@ import axios from "axios";
 import WebApp from "@twa-dev/sdk";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import Alert from "../Alert";
 
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
@@ -21,10 +22,12 @@ const Home = () => {
     const [totalNft,setTotalNFT] = useState<number>(0);
     const [pending,setPending] = useState<boolean>(false);
     const [change24H, setChange24H] = useState<string|null>(null)
+    const [passwordScreen, setPasswordScreen] = useState<string|null>(null)
     
     useEffect(()=>{
         localStorage.setItem("linkIndex",'0')
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
+        WebApp.CloudStorage.getItem("passwordScreen",(err,rs)=>setPasswordScreen(rs as string))
         if(account){
             load();
             loadNFT();
@@ -82,7 +85,7 @@ const Home = () => {
             const contractOwnedList = Object.keys(data.nft);
             contractOwnedList.forEach((item, index) => {
                 totalNft += data.nft[item].length;
-                console.log("nft",data.nft[item].at(-1))
+                //console.log("nft",data.nft[item].at(-1))
                 listNFT.push(<Link key={index} href={`/wallet/nfts/collection/${data.nft[item][index].nft_contract_id}`} className="flex flex-col items-start relative">
                     {data.nft[item].at(-1).media?(
                         <img className="rounded-xl" width={110} src={data.nft[item].at(-1).media} alt="NFT"/>
@@ -119,10 +122,12 @@ const Home = () => {
         <div>
             {account?(
             <div className="w-full bg-[#180E35]">
+                
                 <div className="min-h-screen">
                 {/* Top Header */}
                 <Header/>
                 {/* Container Top */}
+                
                 <div className="relative">
                     <div className="flex items-center overflow-y-scroll scroll-smooth flex-col mt-5 justify-center">
                         <div className="text-center flex flex-row gap-2 items-center">
@@ -177,6 +182,13 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
+                    {
+                        !passwordScreen&&(
+                            <div className="mt-3 px-4 py-2">
+                                <Alert/>
+                            </div>
+                        )
+                    }
                     {/* Container Top */}
                     <div className="mt-5">
                         <div className="mt-3 px-4 py-2">

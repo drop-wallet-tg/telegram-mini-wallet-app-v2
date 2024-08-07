@@ -1,4 +1,5 @@
 import WebApp from "@twa-dev/sdk";
+import { useRouter } from "next/router";
 
 type Account = {
     name: string,
@@ -7,7 +8,7 @@ type Account = {
 
 export default function Account({data}:{data:any}){
     const selectIndex = Number(localStorage.getItem("item"))??0;
-    
+    const router = useRouter()
     function strucate(str: string){
         const format = str.replace(".near","");
         if(format.length > 10){
@@ -21,7 +22,7 @@ export default function Account({data}:{data:any}){
             localStorage.setItem("item",i.toString())
             WebApp.CloudStorage.setItem("privateKey",data.privateKey);
             WebApp.CloudStorage.setItem("account",data.name);
-            location.replace("/")
+            router.push("/home")
         }
     }
 

@@ -3,13 +3,14 @@ import { useState } from "react";
 import {getState,CreateAccount, submitTransaction} from "../../hooks/SDK";
 import WebApp from "@twa-dev/sdk";
 import Link from "next/link";
-
+import { useRouter } from "next/router";
 
 export default function CreateWalletv1(){
     const [account, setAccount] = useState<string>('');
     const [msgAccount,setMsgAccount] = useState<string>('');
     const [loading,setLoading] = useState<boolean>(false);
     const [status,setStatus] = useState<string>('');
+    const router = useRouter();
 
     const handleCreateAccount = async(e:any)=>{
         e.preventDefault();
@@ -33,7 +34,7 @@ export default function CreateWalletv1(){
                 //console.log(data)
                 
                 if (data.final_execution_status == "FINAL") {
-                    location.replace(`/wallet/create-account/success?hash=${data.transaction.hash}`);
+                    router.push(`/wallet/create-account/success?hash=${data.transaction.hash}`);
                 }
                 setLoading(false)
 
@@ -78,7 +79,7 @@ export default function CreateWalletv1(){
             )}
             <form onSubmit={handleCreateAccount} className="p-5">
                 <div className="flex flex-row items-center text-center">
-                    <Link href="/" className="cursor-pointer hover:bg-black hover:bg-opacity-35 rounded-full">
+                    <Link href="/home" className="cursor-pointer hover:bg-black hover:bg-opacity-35 rounded-full">
                         <img src="/images/icon/Arrow.svg" alt="arrow" />
                     </Link>
                     <label className="text-xl text-white font-semibold m-auto">Your Account Identity</label>

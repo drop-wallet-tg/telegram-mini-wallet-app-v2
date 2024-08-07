@@ -3,13 +3,15 @@ import { useState,useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import Image from "next/image";
+import { useRouter } from "next/router";
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
 export default function SendSuccess(){
     const [account,setAccount] = useState<string>('');
     const hash = localStorage.getItem("hash") ||"";
+    const router = useRouter()
+
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string)); 
     },[account])
@@ -27,7 +29,7 @@ export default function SendSuccess(){
                     </Link>
                 </div>
                 <div className="mt-12 w-full">
-                    <button onClick={()=>location.replace("/")} className="px-6 py-3 bg-[#2775CA] hover:bg-[#5290D4] w-full rounded-3xl text-white font-bold">Home</button>
+                    <button onClick={()=>router.push("/home")} className="px-6 py-3 bg-[#2775CA] hover:bg-[#5290D4] w-full rounded-3xl text-white font-bold">Home</button>
                 </div>
             </div>
         </div>

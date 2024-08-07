@@ -3,7 +3,7 @@ import LinkComponents from "./LinkComponents"
 export default function Footer(){
     const Data = [
         {
-            link: "/",
+            link: "/home",
             icon: "/images/logo/logo.svg"
         },
         {

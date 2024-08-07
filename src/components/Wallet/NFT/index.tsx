@@ -60,7 +60,7 @@ export default function ShowNFT(){
             setTotalNFT(0)
         }
     }
-    console.log(nfts)
+    //console.log(nfts)
     return(
         <div className="w-full bg-[#180E35] relative">
             <div className="min-h-screen">

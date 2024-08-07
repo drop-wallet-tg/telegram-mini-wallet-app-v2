@@ -3,10 +3,12 @@ import { useState,useEffect } from "react";
 import Header from "@/components/Header";
 import Link from "next/link";
 import WebApp from "@twa-dev/sdk";
+import { useRouter } from "next/router";
 
 export default function LogOut(){
     const [account, setAccount] = useState<string>('');
     const [loading,setLoading] = useState<boolean>(false);
+    const router = useRouter()
 
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string));
@@ -16,7 +18,7 @@ export default function LogOut(){
         setLoading(true);
         WebApp.CloudStorage.removeItems(["privateKey","account"]);
         setLoading(false);
-        location.replace("/");
+        router.push("/home");
     }
 
     function struncate(str: string){

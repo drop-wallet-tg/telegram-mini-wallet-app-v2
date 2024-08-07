@@ -1,7 +1,10 @@
+"use client"
 import Account from "./Account";
+import { useRouter } from "next/router";
 
 export default function Sidebar({account,isShow,setIsShow}:{account:string,isShow:boolean,setIsShow:any}){
     const DataAccount = JSON.parse(localStorage.getItem("accounts") as string)??[];
+    const router = useRouter();
     
     function strucate(str: string){
         const format = str.replace(".near","");
@@ -10,21 +13,6 @@ export default function Sidebar({account,isShow,setIsShow}:{account:string,isSho
         }
         return format+'.near';
     }
-
-    // const DataAccount = [
-    //     {
-    //         name:"nhanzzz.near",
-    //         privateKey: "ed25519:KaADukwkqm55JSUKLH7zxkbEvJ3GN75oAtL3rBzwWvJdtNE6T2WUWqM9vBPDke1YCJ5TBbfhFzrszYqpP1hAE13"
-    //     },
-    //     {
-    //         name:"hnazzz.near",
-    //         privateKey: "ed25519:2TVLPgnhwahxvA7RZxoVMNrwoXuxyKenr5zN8HLPnYYSSgNXLdZnUQzkyhFCGR85juy9NEKVuq2ZG95eamDdyYRA"
-    //     },
-    //     {
-    //         name:"8d6a281d6f530ad969196534364240e0d536b43c7059ae15e8550bb2af6d871d",
-    //         privateKey: "ed25519:65jfL25QqEHj9mhr5dNu63YXmHEowbQcqsyTJwRAAkQTBiZGKwo7qsg8fRzRSbWVsVW457VjbXCxbnzTtV9vcjue"
-    //     },
-    // ]
 
     return(
         isShow&&(
@@ -49,7 +37,7 @@ export default function Sidebar({account,isShow,setIsShow}:{account:string,isSho
                     </div> 
                     <div className="absolute z-50 bottom-8 border-t border-gray-100 border-opacity-20 pt-10 w-full items-center justify-center flex">
                         <div className="flex flex-col gap-7">
-                            <button onClick={()=>location.replace("/wallet/import-wallet")} className="rounded-full before:ease relative h-12 w-56 overflow-hidden border border-blue-500 bg-blue-500 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-blue-500 hover:before:-translate-x-40">
+                            <button onClick={()=>router.push("/wallet/import-wallet")} className="rounded-full before:ease relative h-12 w-56 overflow-hidden border border-blue-500 bg-blue-500 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-blue-500 hover:before:-translate-x-40">
                                 <div className="flex flex-row items-center px-5">
                                     <img width={33} src="/assets/add.svg" alt="add" />
                                     <div className="m-auto">
@@ -57,7 +45,7 @@ export default function Sidebar({account,isShow,setIsShow}:{account:string,isSho
                                     </div>
                                 </div>
                             </button>
-                            <button onClick={()=>location.replace("/wallet/setting")} className="rounded-full before:ease relative h-12 w-56 overflow-hidden border border-gray-500 bg-gray-500 bg-opacity-20 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-500 hover:before:-translate-x-40">
+                            <button onClick={()=>router.push("/wallet/setting")} className="rounded-full before:ease relative h-12 w-56 overflow-hidden border border-gray-500 bg-gray-500 bg-opacity-20 text-white shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-500 hover:before:-translate-x-40">
                                 <div className="flex flex-row items-center px-5">
                                     <img width={23} src="/assets/setting.svg" alt="add" />
                                     <div className="m-auto">

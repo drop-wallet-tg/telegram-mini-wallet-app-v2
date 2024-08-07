@@ -4,7 +4,7 @@ import WebApp from "@twa-dev/sdk";
 import { getVibe, mintNFT, submitTransaction } from "@/hooks/SDK";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-
+import { useRouter } from "next/router";
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
@@ -22,6 +22,7 @@ export default function Vibe(){
     const [enegry,setEnegry] = useState<string>('');
     const [density,setDensity] = useState<string>('');
     const [diversity,setDiversity] = useState<string>('');
+    const router = useRouter()
 
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string));
@@ -99,7 +100,7 @@ export default function Vibe(){
             )
             const data = await submitTransaction(signedDelegate);
             if(data.final_execution_status == "FINAL"){
-                location.replace(`/wallet/vibe/success?content=${description}&nonce=${nonce}`)
+                router.push(`/wallet/vibe/success?content=${description}&nonce=${nonce}`)
             }
         }
     }

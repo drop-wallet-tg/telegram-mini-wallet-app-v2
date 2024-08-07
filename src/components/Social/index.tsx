@@ -4,7 +4,7 @@ import WebApp from "@twa-dev/sdk";
 import { postSocial, submitTransaction } from "@/hooks/SDK";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import Image from "next/image";
+import { useRouter } from "next/router";
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
@@ -18,6 +18,7 @@ export default function Vibe(){
     const [uploading, setUploading] = useState<boolean>(false);
     const [loading,setLoading] = useState<boolean>(false);
     const [loadingIPFS,setLoadingIPFS] = useState<boolean>(false);
+    const router = useRouter();
 
 
     useEffect(()=>{
@@ -71,10 +72,7 @@ export default function Vibe(){
             );
             const data = await submitTransaction(value);
             if (data.final_execution_status == "FINAL") {
-                //localStorage.setItem("content",description);
-                //localStorage.setItem("nonce",result.transaction.nonce);
-                location.replace(`/social/post/success?content=${description}&nonce=${data.transaction.nonce}`);
-                //return await ctx.replyWithHTML(`<b>✅ You posted on NEAR Social (<img href="https://near.social/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${result.transaction.nonce}">Open</a>) </b>`,keyboards.home());
+                router.push(`/social/post/success?content=${description}&nonce=${data.transaction.nonce}`)
             }
         }else{
             const value = await postSocial(
@@ -86,10 +84,7 @@ export default function Vibe(){
             
             const data = await submitTransaction(value);
             if (data.final_execution_status == "FINAL") {
-                //localStorage.setItem("content",description);
-                //localStorage.setItem("nonce",result.transaction.nonce);
-                location.replace(`/social/post/success?content=${description}&nonce=${data.transaction.nonce}`);
-                //return await ctx.replyWithHTML(`<b>✅ You posted on NEAR Social (<img href="https://near.social/mob.near/widget/MainPage.N.Post.Page?accountId=${accountId}&blockHeight=${result.transaction.nonce}">Open</a>) </b>`,keyboards.home());
+                router.push(`/social/post/success?content=${description}&nonce=${data.transaction.nonce}`)
             }
         }
         
@@ -105,7 +100,7 @@ export default function Vibe(){
             )}
             <div className="p-5 pb-12">
                 <div className="flex flex-row items-center text-center">
-                    <Link href="/">
+                    <Link href="/home">
                         <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" alt="arrow" />
                     </Link>
                     <label className="text-lg text-white font-bold m-auto">Post Social</label>

@@ -4,7 +4,7 @@ import WebApp from "@twa-dev/sdk";
 import { addBlunt, followBlunt, getNFTBlunt, mintBlunt, mintNFT, postSocial, submitTransaction } from "@/hooks/SDK";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import Image from "next/image";
+import { useRouter } from "next/router";
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 
@@ -22,6 +22,7 @@ export default function BluntDao(){
     const [blunt,setBlunt] = useState<string>('');
     const [ProofOfSesh,setProofOfSech] = useState<string>('');
     const [status,setStatus] = useState<string>('');
+    const router = useRouter();
 
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string));
@@ -113,7 +114,7 @@ export default function BluntDao(){
                         token_id
                     )
                     await submitTransaction(signedDelegates)
-                    location.replace(`/social/blunt/success?title=${title}&nonce=${rs.transaction.nonce}`)
+                    router.push(`/social/blunt/success?title=${title}&nonce=${rs.transaction.nonce}`)
                     setLoading(false)
                 }
             }else{
@@ -176,7 +177,7 @@ export default function BluntDao(){
                                 privateKey
                             )
                             await submitTransaction(followDelegate);
-                            location.replace(`/social/blunt/success?title=${title}&contractId=${data.nft["nft.bluntdao.near"][0].nft_contract_id}&tokenId=${data.nft["nft.bluntdao.near"][0].token_id}&nonce=${rs.transaction.nonce}`)
+                            router.push(`/social/blunt/success?title=${title}&contractId=${data.nft["nft.bluntdao.near"][0].nft_contract_id}&tokenId=${data.nft["nft.bluntdao.near"][0].token_id}&nonce=${rs.transaction.nonce}`)
                         } 
                     }
                 } else {
@@ -205,7 +206,7 @@ export default function BluntDao(){
             )}
             <div className="p-5 pb-12">
                 <div className="flex flex-row items-center text-center">
-                    <Link href="/">
+                    <Link href="/home">
                         <img className="bg-black bg-opacity-25 rounded-full hover:bg-opacity-35" src="/images/icon/Arrow.svg" alt="arrow" />
                     </Link>
                     <label className="text-lg text-white font-bold m-auto">Blunt DAO</label>

@@ -4,7 +4,7 @@ import Link from "next/link"
 const { parseSeedPhrase, generateSeedPhrase } = require('near-seed-phrase');
 import WebApp from "@twa-dev/sdk";
 import { getAccount } from "@/hooks/SDK";
-
+import { useRouter } from "next/router";
 
 export default function SecretPharse(){
     const [privateKey,setPrivateKey] = useState<string>('');
@@ -13,6 +13,7 @@ export default function SecretPharse(){
     const [status,setStatus] = useState<string>('');
     const [loading,setLoading] = useState<boolean>(false);
     const oldAccounts = JSON.parse(localStorage.getItem("accounts") as string)??[];
+    const router = useRouter();
 
     const handleSecret= async(event:any)=>{
         const seedPhrase = event.target.value;
@@ -58,7 +59,7 @@ export default function SecretPharse(){
             WebApp.CloudStorage.setItem("account",account[0]);
             WebApp.CloudStorage.setItem("seed",secret);
             setLoading(false)
-            location.replace("/")
+            router.push("/home")
         }else{
             setLoading(false)
             setStatus("<b>Invalid key. Please check your input and try again!</b>");

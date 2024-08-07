@@ -159,7 +159,7 @@ export const stateAccounts = async(accountId:string) => {
 
 export const getAccount = async(pub:string)=>{
   try{
-    const account = (await fetch(`https://api3.nearblocks.io/v1/kitwallet/publickey/${pub}/accounts`)).json();
+    const account = (await fetch(`https://api.nearblocks.io/v1/kitwallet/publickey/${pub}/accounts`)).json();
     return account;
   }catch(error){
     return error;

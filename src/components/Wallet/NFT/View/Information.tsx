@@ -57,7 +57,7 @@ export default function Information({params}:{params:string}){
             setNFTs(listNFT)
         }
     }
-    console.log(nfts)
+    //console.log(nfts)
     return(
         <div className="w-full min-h-screen bg-[#180E35]">
             <Header/>
