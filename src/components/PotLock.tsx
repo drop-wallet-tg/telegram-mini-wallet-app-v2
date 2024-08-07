@@ -221,8 +221,9 @@ const PotLock = () =>{
             setDonateSuccess(true)
             setTimeout(()=>{
                 setDonateSuccess(false)
-                router.push("/digital/potlock")
+                setConfirmDonate(false)
             },2000)
+            router.push("/digital/potlock")
         }catch(error){
             console.log(error)
         }
