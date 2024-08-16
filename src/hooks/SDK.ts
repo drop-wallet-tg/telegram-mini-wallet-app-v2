@@ -498,7 +498,7 @@ export async function getVibe(accountId:string,cid:string,privateKey:string,frie
     let args  = {
         data: {
           [accountId]: {
-            post: {
+            post:     {
               main: JSON.stringify({
                 type:"md",
                 image:{

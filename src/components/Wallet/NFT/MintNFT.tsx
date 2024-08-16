@@ -24,6 +24,7 @@ export default function Mint(){
     const [loadingIPFS,setLoadingIPFS] = useState<boolean>(false);
     const [isShow, setIsShow] = useState<boolean>(false);
     const [select,setSelect] = useState<any>(["GENADROP","/assets/genadrop.svg","nft.genadrop.near"]);
+    const [isChecked, setIsChecked] = useState(false)
     const router = useRouter()
 
 
@@ -31,6 +32,17 @@ export default function Mint(){
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string));
         WebApp.CloudStorage.getItem("privateKey",(err,rs)=>setPrivateKey(rs as string));
     },[account,privateKey])
+
+    const handleCheckboxChange = () => {
+        
+        setIsChecked(!isChecked)
+        if(!isChecked){
+            setNearAccount(account)
+        }else{
+            setNearAccount("")
+        }
+    }
+    
 
     const handleUploadFile = async(event:any)=>{
         try {
@@ -317,12 +329,37 @@ export default function Mint(){
                         <div dangerouslySetInnerHTML={{__html:msgDesc}}/>
                     )}
                 </div>
-                <div className="">
-                    <label htmlFor="account" className="text-gray-300">Valid Near Account</label>
-                    <input value={nearAccount} onChange={handleVaildNearAccount} type="text" name="account" className={`w-full text-white ${msgAccount?"border border-red-600":"border border-white border-opacity-20"} shadow-sm bg-black bg-opacity-25 mt-2 mb-2 px-4 py-3 rounded-lg focus:outline-none placeholder-[#ffffff3c]`} placeholder="Enter valid Near Account"/>
-                    {msgAccount&&(
-                        <div dangerouslySetInnerHTML={{__html:msgAccount}}/>
-                    )}
+                <div className="flex flex-col justify-between gap-3 mt-2">
+                    <div className="flex flex-row justify-between">
+                        <span className="text-white">Mint to {isChecked?"my":"another"} Address</span>
+                        <label className='flex cursor-pointer select-none items-center'>
+                            <div className='relative'>
+                            <input
+                                type='checkbox'
+                                checked={isChecked}
+                                onChange={handleCheckboxChange}
+                                className='sr-only'
+                            />
+                            <div
+                                className={`box block h-8 w-14 rounded-full ${
+                                isChecked ? 'bg-blue-500' : 'bg-gray-400'
+                                }`}
+                            ></div>
+                            <div
+                                className={`absolute left-1 top-1 flex  h-6 w-6 items-center bg-white justify-center rounded-full transition ${
+                                isChecked ? 'translate-x-full' : ''
+                                }`}
+                            ></div>
+                            </div>
+                        </label>
+                    </div>
+                    <div className="flex flex-col">
+                        <label htmlFor="account" className="text-gray-300">Receiver Address</label>
+                        <input value={nearAccount} disabled={isChecked} onChange={handleVaildNearAccount} type="text" name="account" className={`w-full text-white ${msgAccount?"border border-red-600":"border border-white border-opacity-20"} shadow-sm bg-black bg-opacity-25 mt-2 mb-2 px-4 py-3 rounded-lg focus:outline-none placeholder-[#ffffff3c]`} placeholder="Input a valid Receiver Address"/>
+                        {msgAccount&&(
+                            <div dangerouslySetInnerHTML={{__html:msgAccount}}/>
+                        )}
+                    </div>
                 </div>
                 <div className="mt-5 w-full">
                     <button onClick={handleMintNFT} disabled={!checkEnough()} className={`px-6 py-3 ${checkEnough()?"bg-[#2775CA] hover:bg-[#5290D4]":"bg-black bg-opacity-30"} w-full rounded-3xl text-white font-bold`}>Mint</button>

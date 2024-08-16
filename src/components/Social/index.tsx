@@ -27,20 +27,23 @@ export default function Vibe(){
     },[account,privateKey])
 
     const handleUploadFile = async(event:any)=>{
+        const file = event.target.files[0]
         try {
-            const data = new FormData();
-            data.set("file", event.target.files[0]);
-            data.append("metadata", JSON.stringify({ title:"nft" }));
+            // const data = new FormData();
+            // data.set("file", event.target.files[0]);
+            // data.append("metadata", JSON.stringify({ title:"nft" }));
             setLoadingIPFS(true)
-            const res = await fetch("https://api.pinata.cloud/pinning/pinFileToIPFS", {
+            const res = await fetch("https://ipfs.near.social/add", {
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer ${process.env.JWT_PINATA_CLOUD}`,
+                    "Content-Type": file.type
+                    // Authorization: `Bearer ${process.env.JWT_PINATA_CLOUD}`,
                 },
-                body: data,
+                body: file,
             });
-            const { IpfsHash } = await res.json();
-            setCid(IpfsHash);
+            const { cid } = await res.json();
+            //console.log("ipfs",cid)
+            setCid(cid);
             setLoadingIPFS(false)
             setUploading(true);
         } catch (e) {
@@ -109,7 +112,7 @@ export default function Vibe(){
                     
                     <label className="mb-12 mt-2 text-white">Image for post <span className="text-[#FF8F00]">(*optional)</span></label><br/>
                     {uploading?(
-                        <img alt="loading" width={150} height={150} className="mt-3" src={`https://olive-rational-giraffe-695.mypinata.cloud/ipfs/${cid}?pinataGatewayToken=kV2NKhwJtxSznI_jwNRMQDq3L6xOR75S4TxUcb8WkPtZp6dbCde12sdDshGDX-JU`}/>
+                        <img alt="loading" width={150} height={150} className="mt-3" src={`https://ipfs.near.social/ipfs/${cid}`}/>
                     ):(
                         loadingIPFS?(
                             <div className="mt-3">

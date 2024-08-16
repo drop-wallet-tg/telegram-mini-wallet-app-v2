@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const Alert = () =>{
     return(
-        <div className="flex flex-row bg-[#fbd38d29] text-white p-2 rounded-full w-full bg-opacity-60 justify-between items-center px-3">
+        <div className="flex flex-row bg-yellow-300 bg-opacity-20 text-white p-2 rounded-full w-full justify-between items-center px-3">
             <div className="flex flex-row gap-2 items-center">
                 <img width={25} src="/assets/icon/warning.svg" alt="icon" />
                 <span className="font-semibold text-sm">Protect Your Wallet</span>
