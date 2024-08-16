@@ -574,26 +574,36 @@ export async function mintNFT(accountId:string,  title:string, description:strin
           }
       ]
   });
+  function convertToJSON(text: string) {
+    // Replace newline characters and tabs for proper formatting
+    const formattedText = text.replace(/\n/g, "\\n").replace(/\t/g, "\\t");
+  
+    // Convert to JSON string
+    const jsonString = JSON.stringify({ content: formattedText });
+  
+    return jsonString;
+  }
+  const sanitizedJson = convertToJSON(data);
+  const body = new Blob([sanitizedJson], { type: "application/json" });
   const config = {
     method: 'post',
-    url: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',
+    url: 'https://ipfs.near.social/add',
     headers: { 
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.JWT_PINATA_CLOUD}`
+      "Accept": "application/json"
     },
-    data: data
+    data: body
   };
     const ipfsJson = await axios(config);
-     const args = {
+    const args = {
           token_id: tokenId,
           metadata: {
             title: title,
             description: description,
-            media: `https://gateway.pinata.cloud/ipfs/${cid}`,
-            reference: `ipfs/${ipfsJson.data.IpfsHash}`,
+            media: `https://ipfs.near.social/ipfs/${cid}`,
+            reference: `ipfs/${ipfsJson.data.cid}`,
           },
           receiver_id: receiverNFT
-        }
+      }
         
     const action = actionCreators.functionCall(
         "nft_mint",

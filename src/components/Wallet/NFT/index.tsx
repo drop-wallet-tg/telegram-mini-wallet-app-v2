@@ -30,6 +30,7 @@ export default function ShowNFT(){
             let listNFT:any = [];
             const contractOwnedList = Object.keys(data.nft);
             contractOwnedList.forEach((item, index) => {
+                console.log("data",data.nft[item].at(-1).media)
                 totalNft += data.nft[item].length;
                 listNFT.push(<Link href={`/wallet/nfts/collection/${data.nft[item][index].nft_contract_id}`} className="flex flex-col items-start relative">
                     {data.nft[item].at(-1).media?(
