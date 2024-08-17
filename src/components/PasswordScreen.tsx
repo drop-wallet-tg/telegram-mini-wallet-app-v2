@@ -19,7 +19,7 @@ const PasswordScreen = () =>{
 
     useEffect(()=>{
         WebApp.CloudStorage.getItem("passwordScreen",(err,rs)=>{
-            console.log("rs",rs)
+            //console.log("rs",rs)
             setPasswordScreen(rs as string)
         })
     },[])

@@ -9,12 +9,16 @@ import WebApp from "@twa-dev/sdk";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import Alert from "../Alert";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
 const CreateWallet = dynamic(()=>import("@/components/Wallet/CreateWallet"),{ssr:false})
 
 const Home = () => {
+    const search = useSearchParams()
+    const param = search.get("tgWebAppStartParam");
     const [account,setAccount] = useState<string|null>(null);
     const [balance,setBalance]= useState<number>(0);
     const [token,setToken] = useState<any>([]);
@@ -23,7 +27,15 @@ const Home = () => {
     const [pending,setPending] = useState<boolean>(false);
     const [change24H, setChange24H] = useState<string|null>(null)
     const [passwordScreen, setPasswordScreen] = useState<string|null>(null)
-    
+    const [isTransaction, setIsTransaction] = useState<boolean>(false);
+
+    useEffect(()=>{
+        if(param=="sendTransaction"){
+            setIsTransaction(true)
+        }
+    },[param])
+
+
     useEffect(()=>{
         localStorage.setItem("linkIndex",'0')
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
@@ -114,6 +126,14 @@ const Home = () => {
             setPending(false)
             setTotalNFT(0)
         }
+    }
+
+    const onApprove = () =>{
+        setIsTransaction(false)
+    }
+
+    const onReject = () =>{
+        setIsTransaction(false)
     }
 
     //console.log("user telegram",WebApp.initDataUnsafe.user?.id)
@@ -291,8 +311,48 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                {/* Footer */}
-                
+                {
+                    isTransaction&&(
+                        <div className="fixed top-0 bg-black bg-opacity-65 w-full h-full z-50 no-doc-scroll">
+                            <div className="absolute bottom-0 bg-[#180E35] h-96 rounded-t-lg w-full p-3">
+                                <div className="flex flex-col justify-center items-center mt-3 w-full">
+                                    <span className="text-white text-2xl font-semibold">Call smart contract</span>
+                                    <div className="flex flex-col gap-2 items-center px-6 mt-8 w-full">
+                                        <div className="flex flex-row justify-between items-center w-full text-white">
+                                            <span>Contract</span>
+                                            <Link target="_blank" href={`https://nearblocks.io/vi/address/magicbuild.near`}>
+                                                <span className="text-[#3c6fe7] font-semibold">magicbuild.near</span>
+                                            </Link>
+                                        </div>
+                                        <div className="flex flex-row justify-between items-center w-full text-white">
+                                            <span>Method</span>
+                                            <span className="text-[#3c6fe7] font-semibold">get_info &#40;Show args&#41;</span>
+                                        </div>
+                                        <div className="flex flex-row justify-between items-center w-full text-white">
+                                            <span>Deposit</span>
+                                            <div className="flex flex-col text-end">
+                                                <span className="">0 NEAR</span>
+                                                <small className="text-[#ffffffab] -mt-1">$0</small>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-row justify-between items-center w-full text-white">
+                                            <span>Gas</span>
+                                            <span className="">30 TGAS</span>
+                                        </div>
+                                        <div className="mt-4 w-full flex flex-col gap-5">
+                                            <button onClick={onApprove} className="text-white bg-[#005bc5] hover:bg-opacity-65 rounded-full w-full px-3 py-2">
+                                                <span className="font-semibold">Approve all &#40;$0&#41;</span>
+                                            </button>
+                                            <button onClick={onReject} className="text-[#fff] border border-[#fff] rounded-full hover:bg-white hover:bg-opacity-30 w-full px-3 py-2">
+                                                <span className="font-semibold">Reject</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
             </div>
             <Footer/>
         </div>

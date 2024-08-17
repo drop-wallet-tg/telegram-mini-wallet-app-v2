@@ -12,7 +12,10 @@ import { type FC, useEffect, useMemo,useState } from 'react';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useRouter as useNavigationRouter } from 'next/navigation';
+import { Nunito } from 'next/font/google'
 
+
+const openSans = Nunito({ subsets: ['latin'],weight:"500" })
 
 import "./globals.css";
 import 'react-toastify/dist/ReactToastify.css';
@@ -110,9 +113,9 @@ const Inner: FC<AppProps> = (props) => {
 
 export default function CustomApp(props: AppProps) {
   return (
-    <>
+    <div className={openSans.className}>
       <Loading/>
       <Inner {...props}/>
-    </>
+    </div>
   );
 };
