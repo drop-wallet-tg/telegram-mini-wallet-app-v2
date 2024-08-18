@@ -41,7 +41,6 @@ const PasswordScreen = () =>{
     }
 
     const handleUnlock = () =>{
-        console.log("unlock",passwordScreen)
         if(password === passwordScreen){
             switch(action){
                 case "openApp":
