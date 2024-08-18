@@ -12,6 +12,9 @@ const PasswordScreen = () =>{
     const [passwordScreen, setPasswordScreen] = useState<string|null>(null)
     const [status, setStatus] = useState<string|null>(null)
     const router = useRouter();
+    const url = window.location.href.replace(`${window.location.origin}/`,"")
+
+    //console.log("url",url)
 
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
@@ -34,7 +37,7 @@ const PasswordScreen = () =>{
 
     const handleUnlock = () =>{
         if(password == passwordScreen){
-            router.push("/home")
+            router.push(`/home${url}`)
         }else{
             setStatus("<b>Password was incorrect!</b>")
             setTimeout(() => {
