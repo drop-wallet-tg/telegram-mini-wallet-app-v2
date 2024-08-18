@@ -364,7 +364,7 @@ const Home = () => {
                 {
                     isTransaction&&(
                         <div className="fixed top-0 bg-black bg-opacity-65 w-full h-full z-50 no-doc-scroll">
-                            <div className="absolute bottom-0 bg-[#180E35] h-96 rounded-t-lg w-full p-3">
+                            <div className="absolute bottom-0 bg-[#180E35] max-h-[26rem] h-full rounded-t-lg w-full p-3">
                                 
                                 {
                                     loadingTrx?(

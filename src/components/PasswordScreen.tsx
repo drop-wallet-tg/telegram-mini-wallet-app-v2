@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import WebApp from "@twa-dev/sdk";
 import { useRouter } from "next/router";
 import Link from "next/link"
+import { useSearchParams } from "next/navigation";
+import {decode as base64_decode} from 'base-64';
 
 const PasswordScreen = () =>{
     const [account,setAccount] = useState<string|null>(null);
@@ -13,8 +15,10 @@ const PasswordScreen = () =>{
     const [status, setStatus] = useState<string|null>(null)
     const router = useRouter();
     const url = window.location.href.replace(`${window.location.origin}/`,"")
-
-    //console.log("url",url)
+    const search = useSearchParams()
+    const action = search.get("action")
+    const app = search.get("app")
+    console.log("url",url)
 
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
@@ -22,7 +26,6 @@ const PasswordScreen = () =>{
 
     useEffect(()=>{
         WebApp.CloudStorage.getItem("passwordScreen",(err,rs)=>{
-            //console.log("rs",rs)
             setPasswordScreen(rs as string)
         })
     },[])
@@ -37,7 +40,19 @@ const PasswordScreen = () =>{
 
     const handleUnlock = () =>{
         if(password == passwordScreen){
-            router.push(`/home${url}`)
+            switch(action){
+                case "openApp":
+                    switch(app){
+                        case "potlock":
+                            router.push("/digital/potlock")
+                        default:
+                            return ;
+                    }
+                case "sendTransaction":
+                    router.push(`/home${url}`)
+                default:
+                    return;
+            }
         }else{
             setStatus("<b>Password was incorrect!</b>")
             setTimeout(() => {
