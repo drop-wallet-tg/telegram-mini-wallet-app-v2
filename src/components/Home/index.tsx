@@ -11,6 +11,7 @@ import Link from "next/link";
 import Alert from "../Alert";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/router";
+import { AddKey } from "@/hooks/wallet";
 
 
 const Header = dynamic(()=>import("@/components/Header"),{ssr:false})
@@ -18,27 +19,50 @@ const CreateWallet = dynamic(()=>import("@/components/Wallet/CreateWallet"),{ssr
 
 const Home = () => {
     const search = useSearchParams()
-    const param = search.get("tgWebAppStartParam");
+    const param = atob(search.get("tgWebAppStartParam") as string);
+    const action = search.get("action")
+    const type = search.get("type")
+    const contractId = search.get("contractId")
+    const methodNames = search.get("methodNames")
+    const allowance = search.get("allowance")
     const [account,setAccount] = useState<string|null>(null);
+    const [privateKey,setPrivateKey] = useState<string|null>(null);
     const [balance,setBalance]= useState<number>(0);
     const [token,setToken] = useState<any>([]);
     const [nfts, setNFTs] = useState<any>([]);
     const [totalNft,setTotalNFT] = useState<number>(0);
-    const [pending,setPending] = useState<boolean>(false);
+    const [pending,setPending] = useState<boolean>(false);  
     const [change24H, setChange24H] = useState<string|null>(null)
     const [passwordScreen, setPasswordScreen] = useState<string|null>(null)
     const [isTransaction, setIsTransaction] = useState<boolean>(false);
+    const [status, setStatus] = useState<string|null>(null)
+    const [error, setError] = useState<string|null>(null)
+    const [loadingTrx, setLoadingTrx] = useState<boolean>(false);
+    const [actionTrx, setActionTrx] = useState<any>(()=>{})
+    const [isAddKey, setIsAddKey] = useState<boolean>(false)
 
     useEffect(()=>{
-        if(param=="sendTransaction"){
-            setIsTransaction(true)
+        switch(action){
+            case "sendTransaction":
+                setIsTransaction(true)
+                switch(type){
+                    case "addKey":
+                        setIsAddKey(true)
+                    default:
+                        return ;
+                }
+            default:
+                return;
         }
+        
     },[param])
 
+    //console.log(window.location.href)
 
     useEffect(()=>{
         localStorage.setItem("linkIndex",'0')
         WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
+        WebApp.CloudStorage.getItem("privateKey",(err,rs)=>setPrivateKey(rs as string))
         WebApp.CloudStorage.getItem("passwordScreen",(err,rs)=>setPasswordScreen(rs as string))
         if(account){
             load();
@@ -104,7 +128,6 @@ const Home = () => {
                     ):(
                         <img width={110} src="/images/svg/card.svg" alt="NFT"/>
                     )}
-                    {/* py-2 text-[0.7rem] absolute ml-2 w-full bottom-0 flex flex-row items-center  gap-2 */}
                     <div className="title">
                         <div className="sub-title">
                             <p className="text-[#b5afff]">
@@ -128,16 +151,33 @@ const Home = () => {
         }
     }
 
-    const onApprove = () =>{
-        setIsTransaction(false)
+    const onApprove = async() =>{
+        setLoadingTrx(true)
+        switch(type){
+            case "addKey":
+                const result = await
+                    AddKey({
+                        accountId: account as string,
+                        privateKey: privateKey as string,
+                        contractId: contractId as string,
+                        methodNames: methodNames ? JSON.parse(methodNames) : [],
+                        allowance: allowance ? allowance : "250000000000000000000000"
+                    })
+                console.log("tx",result)
+                if(result?.status){
+                    setLoadingTrx(false)
+                    setIsTransaction(false)
+                }
+            default:
+                return ;
+        }
     }
 
     const onReject = () =>{
         setIsTransaction(false)
     }
 
-    //console.log("user telegram",WebApp.initDataUnsafe.user?.id)
-    //console.log("balance",balance)
+
     return(
         <div>
             {account?(
@@ -312,43 +352,102 @@ const Home = () => {
                     </div>
                 </div>
                 {
+                    error&&(
+                        <div className="absolute w-full top-16 left-0">
+                            <div className="bg-red-200 px-4 py-2 my-4 w-2/3 rounded-md text-lg flex gap-2 items-center mx-auto max-w-lg">
+                                <img width={18} src="/assets/icon/error.svg" alt="icon" />
+                                <div className="text-[#E32636] text-sm" dangerouslySetInnerHTML={{__html:error as string}}/>
+                            </div>
+                        </div>
+                    )
+                }
+                {
                     isTransaction&&(
                         <div className="fixed top-0 bg-black bg-opacity-65 w-full h-full z-50 no-doc-scroll">
                             <div className="absolute bottom-0 bg-[#180E35] h-96 rounded-t-lg w-full p-3">
-                                <div className="flex flex-col justify-center items-center mt-3 w-full">
-                                    <span className="text-white text-2xl font-semibold">Call smart contract</span>
-                                    <div className="flex flex-col gap-2 items-center px-6 mt-8 w-full">
-                                        <div className="flex flex-row justify-between items-center w-full text-white">
-                                            <span>Contract</span>
-                                            <Link target="_blank" href={`https://nearblocks.io/vi/address/magicbuild.near`}>
-                                                <span className="text-[#3c6fe7] font-semibold">magicbuild.near</span>
-                                            </Link>
-                                        </div>
-                                        <div className="flex flex-row justify-between items-center w-full text-white">
-                                            <span>Method</span>
-                                            <span className="text-[#3c6fe7] font-semibold">get_info &#40;Show args&#41;</span>
-                                        </div>
-                                        <div className="flex flex-row justify-between items-center w-full text-white">
-                                            <span>Deposit</span>
-                                            <div className="flex flex-col text-end">
-                                                <span className="">0 NEAR</span>
-                                                <small className="text-[#ffffffab] -mt-1">$0</small>
+                                
+                                {
+                                    loadingTrx?(
+                                        <div className="flex flex-col justify-center items-center mt-3 w-full">
+                                            <div className="spinner mt-24">
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
                                             </div>
+                                            <span className="font-semibold text-white mt-24 text-lg">Transaction is processing...</span>
                                         </div>
-                                        <div className="flex flex-row justify-between items-center w-full text-white">
-                                            <span>Gas</span>
-                                            <span className="">30 TGAS</span>
+                                        
+                                    ):(
+                                        <div className="flex flex-col justify-center items-center mt-3 w-full">
+                                            <span className="text-white text-2xl font-semibold">{isAddKey?"Add access key":"Call smart contract"}</span>
+                                            {
+                                                isAddKey?
+                                                (
+                                                    <div className="mt-2 justify-center items-center px-6 w-full flex flex-col">
+                                                        <Link target="_blank" href={`https://nearblocks.io/vi/address/${contractId}`}>
+                                                            <span className="text-[#3c6fe7] font-semibold">{contractId}</span>
+                                                        </Link>
+                                                        <span className="text-white">will have limited permissions</span>
+                                                        <div className="flex flex-col gap-3 mt-10 justify-start">
+                                                            <div className="flex flex-row gap-2 items-center w-full text-white">
+                                                                <img width={20} src="/assets/icon/done.svg" alt="icon" />
+                                                                <span>View info of your pemitted account</span>
+                                                            </div>
+                                                            <div className="flex flex-row gap-2 items-center w-full text-white">
+                                                                <img width={20} src="/assets/icon/done.svg" alt="icon" />
+                                                                <span>Can call all not payable methods of this contract</span>
+                                                            </div>
+                                                            
+                                                            <div className="mt-8 w-full flex flex-col gap-5">
+                                                                <button onClick={onApprove} className="text-white bg-[#005bc5] hover:bg-opacity-65 rounded-full w-full px-3 py-2">
+                                                                    <span className="font-semibold">Approve all &#40;$0&#41;</span>
+                                                                </button>
+                                                                <button onClick={onReject} className="text-[#fff] border border-[#fff] rounded-full hover:bg-white hover:bg-opacity-30 w-full px-3 py-2">
+                                                                    <span className="font-semibold">Reject</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ):(
+                                                    <div className="flex flex-col gap-2 items-center px-6 mt-8 w-full">
+                                                        <div className="flex flex-row justify-between items-center w-full text-white">
+                                                            <span>Contract</span>
+                                                            <Link target="_blank" href={`https://nearblocks.io/vi/address/${contractId}`}>
+                                                                <span className="text-[#3c6fe7] font-semibold">{contractId}</span>
+                                                            </Link>
+                                                        </div>
+                                                        <div className="flex flex-row justify-between items-center w-full text-white">
+                                                            <span>Method</span>
+                                                            <span className="text-[#3c6fe7] font-semibold">get_gotchi &#40;Show args&#41;</span>
+                                                        </div>
+                                                        <div className="flex flex-row justify-between items-center w-full text-white">
+                                                            <span>Deposit</span>
+                                                            <div className="flex flex-col text-end">
+                                                                <span className="">0 NEAR</span>
+                                                                <small className="text-[#ffffffab] -mt-1">$0</small>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex flex-row justify-between items-center w-full text-white">
+                                                            <span>Gas</span>
+                                                            <span className="">30 TGAS</span>
+                                                        </div>
+                                                        <div className="mt-4 w-full flex flex-col gap-5">
+                                                            <button onClick={onApprove} className="text-white bg-[#005bc5] hover:bg-opacity-65 rounded-full w-full px-3 py-2">
+                                                                <span className="font-semibold">Approve all &#40;$0&#41;</span>
+                                                            </button>
+                                                            <button onClick={onReject} className="text-[#fff] border border-[#fff] rounded-full hover:bg-white hover:bg-opacity-30 w-full px-3 py-2">
+                                                                <span className="font-semibold">Reject</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
                                         </div>
-                                        <div className="mt-4 w-full flex flex-col gap-5">
-                                            <button onClick={onApprove} className="text-white bg-[#005bc5] hover:bg-opacity-65 rounded-full w-full px-3 py-2">
-                                                <span className="font-semibold">Approve all &#40;$0&#41;</span>
-                                            </button>
-                                            <button onClick={onReject} className="text-[#fff] border border-[#fff] rounded-full hover:bg-white hover:bg-opacity-30 w-full px-3 py-2">
-                                                <span className="font-semibold">Reject</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                                    )
+                                }
                             </div>
                         </div>
                     )

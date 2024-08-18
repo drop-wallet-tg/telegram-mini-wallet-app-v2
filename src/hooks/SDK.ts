@@ -397,7 +397,6 @@ async function syncProfile(accountId:string,privateKey:string , tgUserName:strin
         new BN(gas),
         new BN(deposit)
     );
-
     const delegate = await signerAccount.signedDelegate({
     actions: [action],
     blockHeightTtl: 60,

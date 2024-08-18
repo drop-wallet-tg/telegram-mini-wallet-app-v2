@@ -21,6 +21,7 @@
     "@twa-dev/sdk": "^7.0.0",
     "@twa-dev/types": "^7.0.0",
     "axios": "^1.7.2",
+    "base-64": "^1.0.0",
     "big.js": "^6.2.1",
     "bn.js": "^5.2.1",
     "copy-text-to-clipboard": "^3.2.0",
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "@mintbase-js/storage": "0.5.5-beta.2",
+    "@types/base-64": "^1.0.2",
     "@types/big.js": "^6.2.2",
     "@types/bn.js": "^5.1.5",
     "@types/node": "^20.12.11",
