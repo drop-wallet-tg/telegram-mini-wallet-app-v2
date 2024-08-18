@@ -9,6 +9,7 @@ const PasswordScreen = dynamic(()=>import("@/components/PasswordScreen"),{ssr: f
 const App = () => {
     const router = useRouter();
     const [isPassword, setIsPassword] = useState<string|null>(null);
+    const [loadingPassword, setLoadingPassword] = useState<boolean>(true)
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>{
             if(!rs){
@@ -20,11 +21,12 @@ const App = () => {
     useEffect(()=>{
         WebApp.CloudStorage.getItem("passwordScreen",(err,rs)=>{
             setIsPassword(rs as string)
+            setLoadingPassword(false)
         })
     },[])
 
     return (
-        !isPassword?<Home/>:<PasswordScreen/>
+        !loadingPassword&&!isPassword?<Home/>:<PasswordScreen/>
     );
 };
 

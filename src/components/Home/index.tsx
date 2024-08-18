@@ -52,7 +52,9 @@ const Home = () => {
             }
         })
         WebApp.CloudStorage.getItem("privateKey",(err,rs)=>setPrivateKey(rs as string))
-        WebApp.CloudStorage.getItem("passwordScreen",(err,rs)=>setPasswordScreen(rs as string))
+        WebApp.CloudStorage.getItem("passwordScreen",(err,rs)=>{
+            setPasswordScreen(rs as string)
+        })
         if(account){
             load();
             loadNFT();
