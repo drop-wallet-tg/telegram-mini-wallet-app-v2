@@ -18,10 +18,12 @@ const PasswordScreen = () =>{
     const search = useSearchParams()
     const action = search.get("action")
     const app = search.get("app")
-    console.log("url",url)
+    //console.log("url",url)
 
     useEffect(()=>{
-        WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
+        WebApp.CloudStorage.getItem("account",(err,rs)=>{
+            setAccount(rs as string)
+        })
     },[account])
 
     useEffect(()=>{
@@ -39,7 +41,8 @@ const PasswordScreen = () =>{
     }
 
     const handleUnlock = () =>{
-        if(password == passwordScreen){
+        console.log("unlock",passwordScreen)
+        if(password === passwordScreen){
             switch(action){
                 case "openApp":
                     switch(app){
@@ -51,7 +54,7 @@ const PasswordScreen = () =>{
                 case "sendTransaction":
                     router.push(`/home${url}`)
                 default:
-                    return;
+                    return router.push("/home");
             }
         }else{
             setStatus("<b>Password was incorrect!</b>")

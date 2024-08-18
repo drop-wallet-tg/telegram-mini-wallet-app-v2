@@ -10,38 +10,26 @@ const PasswordScreen = dynamic(()=>import("@/components/PasswordScreen"),{ssr: f
 
 const App = () => {
     const search = useSearchParams()
-    const param = base64_decode(search.get("tgWebAppStartParam") as string);
     const action = search.get("action")
     const app = search.get("app")
     const router = useRouter();
+    const [account, setAccount] = useState<string|null>(null)
     const [isPassword, setIsPassword] = useState<string|null>(null);
     useEffect(()=>{
         WebApp.CloudStorage.getItem("account",(err,rs)=>{
+            setAccount(account)
             if(!rs){
                 router.push("/wallet")
             }
         })
-    },[])
+    },[account])
 
     
     useEffect(()=>{
         WebApp.CloudStorage.getItem("passwordScreen",(err,rs)=>{
             setIsPassword(rs as string)
-            if(!rs){
-                switch(action){
-                    case "openApp":
-                        switch(app){
-                            case "potlock":
-                                router.push("/digital/potlock")
-                            default:
-                                return ;
-                        }
-                    default:
-                        return;
-                }
-            }
         })
-    },[param])
+    },[])
 
     return (
         !isPassword?<Home/>:<PasswordScreen/>

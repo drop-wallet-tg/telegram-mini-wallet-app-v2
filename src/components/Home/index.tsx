@@ -21,6 +21,7 @@ const Home = () => {
     const search = useSearchParams()
     const param = atob(search.get("tgWebAppStartParam") as string);
     const action = search.get("action")
+    const app = search.get("app")
     const type = search.get("type")
     const contractId = search.get("contractId")
     const methodNames = search.get("methodNames")
@@ -40,9 +41,17 @@ const Home = () => {
     const [loadingTrx, setLoadingTrx] = useState<boolean>(false);
     const [actionTrx, setActionTrx] = useState<any>(()=>{})
     const [isAddKey, setIsAddKey] = useState<boolean>(false)
+    const router = useRouter()
 
     useEffect(()=>{
         switch(action){
+            case "openApp":
+                switch(app){
+                    case "potlock":
+                        router.push("/digital/potlock")
+                    default:
+                        return ;
+                }
             case "sendTransaction":
                 setIsTransaction(true)
                 switch(type){
@@ -180,7 +189,7 @@ const Home = () => {
 
     return(
         <div>
-            {account?(
+            {!app&&account?(
             <div className="w-full bg-[#180E35]">
                 
                 <div className="min-h-screen">

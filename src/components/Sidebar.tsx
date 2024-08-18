@@ -6,6 +6,8 @@ export default function Sidebar({account,isShow,setIsShow}:{account:string,isSho
     const DataAccount = JSON.parse(localStorage.getItem("accounts") as string)??[];
     const router = useRouter();
     
+    
+
     function strucate(str: string){
         const format = str.replace(".near","");
         if(format.length > 10){

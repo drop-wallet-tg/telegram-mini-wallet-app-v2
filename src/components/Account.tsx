@@ -10,7 +10,7 @@ export default function Account({data}:{data:any}){
     const selectIndex = Number(localStorage.getItem("item"))??0;
     const router = useRouter()
     function strucate(str: string){
-        const format = str.replace(".near","");
+        const format = str&&str.replace(".near","");
         if(format.length > 10){
             return format.slice(0,3)+'...'+format.slice(-3)+".near";
         }

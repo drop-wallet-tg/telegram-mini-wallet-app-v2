@@ -16,7 +16,8 @@ export default function LogOut(){
 
     const handleLogOut = ()=>{
         setLoading(true);
-        WebApp.CloudStorage.removeItems(["privateKey","account"]);
+        WebApp.CloudStorage.removeItems(["privateKey","account","passwordScreen"]);
+        localStorage.removeItem("accounts")
         setLoading(false);
         router.push("/home");
     }
