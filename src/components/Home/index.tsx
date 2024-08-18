@@ -27,6 +27,7 @@ const Home = () => {
     const methodNames = search.get("methodNames")
     const allowance = search.get("allowance")
     const [account,setAccount] = useState<string|null>(null);
+    const [loadingAccount, setLoadingAccount] = useState<boolean>(true);
     const [privateKey,setPrivateKey] = useState<string|null>(null);
     const [balance,setBalance]= useState<number>(0);
     const [token,setToken] = useState<any>([]);
@@ -47,9 +48,7 @@ const Home = () => {
         localStorage.setItem("linkIndex",'0')
         WebApp.CloudStorage.getItem("account",(err,rs)=>{
             setAccount(rs as string)
-            if(!rs){
-                router.push("/wallet")
-            }
+            setLoadingAccount(false)
         })
         WebApp.CloudStorage.getItem("privateKey",(err,rs)=>setPrivateKey(rs as string))
         WebApp.CloudStorage.getItem("passwordScreen",(err,rs)=>{
@@ -61,6 +60,12 @@ const Home = () => {
             loadToken();
         }
     },[account])
+
+    useEffect(()=>{
+        if(!account&&!loadingAccount){
+            router.push("/wallet")
+        }
+    },[account,loadingAccount])
 
     useEffect(()=>{
         switch(action){
@@ -198,7 +203,7 @@ const Home = () => {
 
     return(
         <div>
-            {!app&&account?(
+            {!loadingAccount&&!app&&account?(
             <div className="w-full bg-[#180E35]">
                 
                 <div className="min-h-screen">
