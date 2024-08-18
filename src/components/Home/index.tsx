@@ -44,6 +44,23 @@ const Home = () => {
     const router = useRouter()
 
     useEffect(()=>{
+        localStorage.setItem("linkIndex",'0')
+        WebApp.CloudStorage.getItem("account",(err,rs)=>{
+            setAccount(rs as string)
+            if(!rs){
+                router.push("/wallet")
+            }
+        })
+        WebApp.CloudStorage.getItem("privateKey",(err,rs)=>setPrivateKey(rs as string))
+        WebApp.CloudStorage.getItem("passwordScreen",(err,rs)=>setPasswordScreen(rs as string))
+        if(account){
+            load();
+            loadNFT();
+            loadToken();
+        }
+    },[account])
+
+    useEffect(()=>{
         switch(action){
             case "openApp":
                 switch(app){
@@ -68,17 +85,7 @@ const Home = () => {
 
     //console.log(window.location.href)
 
-    useEffect(()=>{
-        localStorage.setItem("linkIndex",'0')
-        WebApp.CloudStorage.getItem("account",(err,rs)=>setAccount(rs as string))
-        WebApp.CloudStorage.getItem("privateKey",(err,rs)=>setPrivateKey(rs as string))
-        WebApp.CloudStorage.getItem("passwordScreen",(err,rs)=>setPasswordScreen(rs as string))
-        if(account){
-            load();
-            loadNFT();
-            loadToken();
-        }
-    },[account])
+
     
     useEffect(()=>{
         loadChangeNear24h()
