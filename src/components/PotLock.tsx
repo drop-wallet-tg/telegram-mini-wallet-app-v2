@@ -65,6 +65,7 @@ const PotLock = () =>{
     }
 
     const truncate = (str:string)=>{
+        if(!str) return null;
         if(str.length > 80){
             return str.slice(0,80)+"..."
         }
@@ -181,6 +182,7 @@ const PotLock = () =>{
 
     const handleNote = (event:any) =>{
         const note = event.target.value;
+        if(!note) return null;
         if (note.length > 100) {
             setStatus(`Note must be less than 100 characters`);
             return;
@@ -255,24 +257,24 @@ const PotLock = () =>{
                     <div className="mt-5 flex flex-col gap-5">
                         {projects.length > 0 ? projects.slice(0,10).map((project:any,index:number)=>(
                             <div className="card" key={index}>
-                                {project.registrant.near_social_profile_data.backgroundImage&&!project.registrant.near_social_profile_data.backgroundImage.nft
-                                    ? project.registrant.near_social_profile_data.backgroundImage.url
-                                    ?<img className="card-img" src={project.registrant.near_social_profile_data.backgroundImage.url} alt="background" />
+                                {project.registrant.near_social_profile_data?.backgroundImage&&!project.registrant.near_social_profile_data?.backgroundImage.nft
+                                    ? project.registrant.near_social_profile_data?.backgroundImage.url
+                                    ?<img className="card-img" src={project.registrant.near_social_profile_data?project.registrant.near_social_profile_data.backgroundImage.url:"https://bafkreiewg5afxbkvo6jbn6jgv7zm4mtoys22jut65fldqtt7wagar4wbga.ipfs.nftstorage.link/"} alt="background" />
                                     :<img className="card-img" src={`https://ipfs.near.social/ipfs/${project.registrant.near_social_profile_data.backgroundImage.ipfs_cid}`} alt="background" />
-                                    : <img className="card-img" src={project.registrant.near_social_profile_data.backgroundImage&&project.registrant.near_social_profile_data.backgroundImage.nft.media} alt="background" />
+                                    : <img className="card-img" src={project.registrant.near_social_profile_data?.backgroundImage?project.registrant.near_social_profile_data?.backgroundImage.nft.media:"https://bafkreiewg5afxbkvo6jbn6jgv7zm4mtoys22jut65fldqtt7wagar4wbga.ipfs.nftstorage.link/"} alt="background" />
                                 }
                                 <div className="card-body">
-                                    {project.registrant.near_social_profile_data.image&&(!project.registrant.near_social_profile_data.image.nft
-                                        ? project.registrant.near_social_profile_data.image.url
-                                        ? <img className="card-avatar" src={project.registrant.near_social_profile_data.image.url} alt="avatar" />
-                                        : <img className="card-avatar" src={`https://ipfs.near.social/ipfs/${project.registrant.near_social_profile_data.image.ipfs_cid}`} alt="avatar" />
-                                        : <img className="card-avatar" src={project.registrant.near_social_profile_data.image.nft.media} alt="avatar" />
+                                    {project.registrant.near_social_profile_data?.image&&(!project.registrant.near_social_profile_data.image.nft
+                                        ? project.registrant.near_social_profile_data?.image.url
+                                        ? <img className="card-avatar" src={project.registrant.near_social_profile_data?.image.url} alt="avatar" />
+                                        : <img className="card-avatar" src={`https://ipfs.near.social/ipfs/${project.registrant.near_social_profile_data?.image.ipfs_cid}`} alt="avatar" />
+                                        : <img className="card-avatar" src={project.registrant.near_social_profile_data?.image.nft.media} alt="avatar" />
                                     )}
-                                    <p className="card-title">{project.registrant.near_social_profile_data.name}</p>
-                                    <p className="card-description">{truncate(project.registrant.near_social_profile_data.description)}</p>
+                                    <p className="card-title">{project.registrant.near_social_profile_data?.name}</p>
+                                    <p className="card-description">{truncate(project.registrant.near_social_profile_data?.description)}</p>
                                     <div className="card-tag-container">
                                         {
-                                            project.registrant.near_social_profile_data.plCategories && JSON.parse(project.registrant.near_social_profile_data.plCategories).map((tag:any,idx:number)=>{
+                                            project.registrant.near_social_profile_data?.plCategories && JSON.parse(project.registrant.near_social_profile_data?.plCategories).map((tag:any,idx:number)=>{
                                                 return(
                                                     <div className="card-tag" key={idx}>
                                                         {tag}
