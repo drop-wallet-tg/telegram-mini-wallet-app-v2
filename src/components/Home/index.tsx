@@ -248,12 +248,12 @@ const Home = () => {
                                     </div>
                                     <label>Vibe</label>
                                 </Link>
-                                <Link href="/social/blunt" className="flex flex-col gap-3 justify-center items-center">
+                                <Link href="/digital/potlock" className="flex flex-col gap-3 justify-center items-center">
                                     <div className="relative">
                                         <img src="/images/svg/background_icon.svg" loading="lazy" alt="icon" />
-                                        <img width={23} src="/assets/blunt.svg" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" alt="icon" />
+                                        <img width={45} src="/assets/potlock.png" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" alt="icon" />
                                     </div>
-                                    <label>Blunt Dao</label>
+                                    <label>PotLock</label>
                                 </Link>
                                 <Link href="/social/post" className="flex flex-col gap-3 justify-center items-center">
                                     <div className="relative">
